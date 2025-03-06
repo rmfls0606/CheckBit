@@ -31,7 +31,7 @@ final class TabbarViewController: UITabBarController {
             tag: 1
         )
         
-        let thirdVC = CoinInformationViewController()
+        let thirdVC = PortfolioViewController()
         thirdVC.tabBarItem = UITabBarItem(
             title: "포트폴리오",
             image: UIImage(systemName: "star"),
