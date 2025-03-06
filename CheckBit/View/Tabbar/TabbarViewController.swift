@@ -40,8 +40,9 @@ final class TabbarViewController: UITabBarController {
         thirdVC.tabBarItem.tag = 2
         
         
-        self.tabBar.tintColor = .black
+        self.tabBar.tintColor = UIColor(resource: .main)
         self.tabBar.backgroundColor = .white
+        self.tabBar.unselectedItemTintColor = UIColor(resource: .secondary)
         self.viewControllers = [firstVC, secondVC, thirdVC]
     }
 }
