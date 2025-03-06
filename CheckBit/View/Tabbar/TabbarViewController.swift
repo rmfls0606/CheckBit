@@ -24,14 +24,14 @@ final class TabbarViewController: UITabBarController {
         )
         
         
-        let secondVC = ViewController()
+        let secondVC = CoinInformationViewController()
         secondVC.tabBarItem = UITabBarItem(
             title: "코인정보",
             image: UIImage(systemName: "chart.bar.fill"),
             tag: 1
         )
         
-        let thirdVC = ViewController()
+        let thirdVC = CoinInformationViewController()
         thirdVC.tabBarItem = UITabBarItem(
             title: "포트폴리오",
             image: UIImage(systemName: "star"),
