@@ -25,8 +25,8 @@ class TransactionViewController: BaseViewController {
         let view = UITableView()
         view
             .register(
-                UITableViewCell.self,
-                forCellReuseIdentifier: "coinTableViewCell"
+                CoinTableViewCell.self,
+                forCellReuseIdentifier: CoinTableViewCell.identifier
             )
         view.backgroundColor = .white
         view.separatorStyle = .none
@@ -60,11 +60,11 @@ class TransactionViewController: BaseViewController {
             .bind(
                 to: coinTableView.rx
                     .items(
-                        cellIdentifier: "coinTableViewCell",
+                        cellIdentifier: CoinTableViewCell.identifier,
                         cellType: UITableViewCell.self
                     )
             ){ (row, element, cell) in
-                cell.textLabel?.text = element.market
+                
             }
             .disposed(by: disposeBag)
     }

@@ -20,7 +20,7 @@ class CoinTableViewCell: BaseTableViewCell {
     }
     
     override func configureView() {
-        
+        self.backgroundColor = .yellow
     }
 
 }
