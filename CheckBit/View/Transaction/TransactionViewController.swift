@@ -61,10 +61,14 @@ class TransactionViewController: BaseViewController {
                 to: coinTableView.rx
                     .items(
                         cellIdentifier: CoinTableViewCell.identifier,
-                        cellType: UITableViewCell.self
+                        cellType: CoinTableViewCell.self
                     )
             ){ (row, element, cell) in
-                
+                cell.coinLabel.text = element.market
+                cell.currentPriceLabel.text = "\(element.tradePrice)"
+                cell.changeRateLabel.text = "\(element.signedChangeRate)"
+                cell.changePriceLabel.text = "\(element.signedChangePrice)"
+                cell.tradePriceLabel.text = "\(element.accTradePrice)"
             }
             .disposed(by: disposeBag)
     }
