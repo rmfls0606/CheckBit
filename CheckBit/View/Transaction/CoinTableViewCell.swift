@@ -61,6 +61,7 @@ class CoinTableViewCell: BaseTableViewCell {
         let label = UILabel()
         label.textColor = UIColor(resource: .main)
         label.font = .systemFont(ofSize: 12)
+        label.textAlignment = .right
         return label
     }()
     
@@ -76,6 +77,7 @@ class CoinTableViewCell: BaseTableViewCell {
     
     override func configureView() {
         self.backgroundColor = .white
+        self.selectionStyle = .none
     }
 
 }

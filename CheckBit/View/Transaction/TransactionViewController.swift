@@ -30,6 +30,7 @@ class TransactionViewController: BaseViewController {
             )
         view.backgroundColor = .white
         view.separatorStyle = .none
+        view.rowHeight = 40
         return view
     }()
     
@@ -43,7 +44,8 @@ class TransactionViewController: BaseViewController {
     
     override func configureLayout() {
         self.coinTableView.snp.makeConstraints { make in
-            make.edges.equalTo(self.view.safeAreaLayoutGuide)
+            make.verticalEdges.equalTo(self.view.safeAreaLayoutGuide)
+            make.horizontalEdges.equalTo(self.view.safeAreaLayoutGuide).inset(16)
         }
     }
     
