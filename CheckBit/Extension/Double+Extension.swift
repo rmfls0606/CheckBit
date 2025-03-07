@@ -31,4 +31,22 @@ extension Double{
             
         return resultString
     }
+    
+    //MARK: - 금액이 100만을 초과할 경우 백만 단위로 변환해 보여줍니다.
+    func formattedMillionValue() -> String{
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.minimumFractionDigits = 0
+        formatter.maximumFractionDigits = 0
+        
+        if self >= 1_000_000 {
+            let millionValue = self / 1_000_000
+            let resultString = formatter.string(
+                from: NSNumber(value: millionValue)
+            ) ?? "\(millionValue)"
+            return resultString + "백만"
+        }else{
+            return formatter.string(from: NSNumber(value: self)) ?? "\(self)"
+        }
+    }
 }

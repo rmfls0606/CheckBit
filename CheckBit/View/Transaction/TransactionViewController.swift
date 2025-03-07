@@ -67,9 +67,12 @@ class TransactionViewController: BaseViewController {
                 cell.coinLabel.text = element.market
                 cell.currentPriceLabel.text = element.tradePrice
                     .formatted1fValue()
-                cell.changeRateLabel.text = "\(element.signedChangeRate)"
-                cell.changePriceLabel.text = "\(element.signedChangePrice)"
-                cell.tradePriceLabel.text = "\(element.accTradePrice)"
+                cell.changeRateLabel.text = element.signedChangeRate
+                    .formatted2fValue()
+                cell.changePriceLabel.text = element.signedChangePrice
+                    .formatted2fValue()
+                cell.tradePriceLabel.text = element.accTradePrice
+                    .formattedMillionValue()
             }
             .disposed(by: disposeBag)
     }
