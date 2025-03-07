@@ -65,7 +65,8 @@ class TransactionViewController: BaseViewController {
                     )
             ){ (row, element, cell) in
                 cell.coinLabel.text = element.market
-                cell.currentPriceLabel.text = "\(element.tradePrice)"
+                cell.currentPriceLabel.text = element.tradePrice
+                    .formatted1fValue()
                 cell.changeRateLabel.text = "\(element.signedChangeRate)"
                 cell.changePriceLabel.text = "\(element.signedChangePrice)"
                 cell.tradePriceLabel.text = "\(element.accTradePrice)"

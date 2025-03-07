@@ -19,4 +19,16 @@ extension Double{
             
         return resultString
     }
+    
+    //MARK: - 소수점 표기 방식: 소수점 이하 3자리에서 반올림하여 소수점 2자리까지 표시 후 소수점 2자리가 0인 경우 1자리 까지만 표시
+    func formatted1fValue() -> String?{
+        let roundedValue = (self * 1000).rounded() / 1000
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.minimumFractionDigits = 1
+        formatter.maximumFractionDigits = 2
+        let resultString = formatter.string(from: NSNumber(value: roundedValue))
+            
+        return resultString
+    }
 }
