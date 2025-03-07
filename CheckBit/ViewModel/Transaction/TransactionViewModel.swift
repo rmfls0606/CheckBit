@@ -7,6 +7,7 @@
 
 import Foundation
 import RxSwift
+import RxCocoa
 
 final class TransactionViewModel {
     
@@ -523,10 +524,12 @@ final class TransactionViewModel {
     }
     
     struct Output{
-        
+        let coinList: BehaviorRelay<[MarketData]>
     }
     
     func transform(input: Input) -> Output{
-        return Output()
+        let coinList = BehaviorRelay(value: mockMarketData)
+        
+        return Output(coinList: coinList)
     }
 }
