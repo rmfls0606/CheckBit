@@ -9,7 +9,7 @@ import Foundation
 
 extension Double{
     //MARK: - 소수점 표기 방식: 소수점 이하 3자리에서 반올림하여 소수점 2자리까지 표시
-    func formatted2fValue() -> String?{
+    func formatted2fValue() -> String{
         let roundedValue = (self * 1000).rounded() / 1000
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
@@ -17,11 +17,11 @@ extension Double{
         formatter.maximumFractionDigits = 2
         let resultString = formatter.string(from: NSNumber(value: roundedValue))
             
-        return resultString
+        return resultString ?? "nil"
     }
     
     //MARK: - 소수점 표기 방식: 소수점 이하 3자리에서 반올림하여 소수점 2자리까지 표시 후 소수점 2자리가 0인 경우 1자리 까지만 표시
-    func formatted1fValue() -> String?{
+    func formatted1fValue() -> String{
         let roundedValue = (self * 1000).rounded() / 1000
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
@@ -29,7 +29,7 @@ extension Double{
         formatter.maximumFractionDigits = 2
         let resultString = formatter.string(from: NSNumber(value: roundedValue))
             
-        return resultString
+        return resultString ?? "nil"
     }
     
     //MARK: - 금액이 100만을 초과할 경우 백만 단위로 변환해 보여줍니다.
@@ -43,7 +43,7 @@ extension Double{
             let millionValue = self / 1_000_000
             let resultString = formatter.string(
                 from: NSNumber(value: millionValue)
-            ) ?? "\(millionValue)"
+            ) ?? "nil"
             return resultString + "백만"
         }else{
             return formatter.string(from: NSNumber(value: self)) ?? "\(self)"
