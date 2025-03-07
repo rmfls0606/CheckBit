@@ -16,7 +16,7 @@ final class TabbarViewController: UITabBarController {
     }
     
     private func configureView() {
-        let firstVC = TransactionViewController()
+        let firstVC = UINavigationController(rootViewController: TransactionViewController())
         firstVC.tabBarItem = UITabBarItem(
             title: "거래소",
             image: UIImage(systemName: "chart.line.uptrend.xyaxis"),
