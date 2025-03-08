@@ -21,14 +21,14 @@ class CoinTableViewCell: BaseTableViewCell {
         return view
     }()
     
-    private(set) var coinLabel: UILabel = {
+    private let coinLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor(resource: .main)
         label.font = .systemFont(ofSize: 12, weight: .bold)
         return label
     }()
     
-    private(set) var currentPriceLabel: UILabel = {
+    private let currentPriceLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor(resource: .main)
         label.font = .systemFont(ofSize: 12)
@@ -45,19 +45,19 @@ class CoinTableViewCell: BaseTableViewCell {
         return view
     }()
     
-    private(set) var changeRateLabel: UILabel = {
+    private let changeRateLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 12)
         return label
     }()
     
-    private(set) var changePriceLabel: UILabel = {
+    private let changePriceLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 9)
         return label
     }()
     
-    private(set) var tradePriceLabel: UILabel = {
+    private let tradePriceLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor(resource: .main)
         label.font = .systemFont(ofSize: 12)
@@ -79,6 +79,15 @@ class CoinTableViewCell: BaseTableViewCell {
     override func configureView() {
         self.backgroundColor = .white
         self.selectionStyle = .none
+    }
+    
+    //MARK: - 데이터 삽입 및 style설정 함수
+    func insertData(data: MarketData){
+        self.coinLabel.text = data.market
+        self.currentPriceLabel.text = data.trade_price.formatted1fValue()
+        self.changeRateLabel.text = data.signed_change_rate.formatted2fValue()
+        self.changePriceLabel.text = data.signed_change_price.formatted2fValue()
+        self.tradePriceLabel.text = data.trade_price.formattedMillionValue()
     }
 
 }

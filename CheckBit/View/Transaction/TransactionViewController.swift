@@ -79,15 +79,8 @@ class TransactionViewController: BaseViewController {
                         cellType: CoinTableViewCell.self
                     )
             ){ (row, element, cell) in
-                cell.coinLabel.text = element.market
-                cell.currentPriceLabel.text = element.trade_price
-                    .formatted1fValue()
-                cell.changeRateLabel.text = (element.signed_change_rate
-                    .formatted2fValue() + "%")
-                cell.changePriceLabel.text = element.signed_change_price
-                    .formatted2fValue()
-                cell.tradePriceLabel.text = element.acc_trade_price
-                    .formattedMillionValue()
+                let data = element
+                cell.insertData(data: data)
             }
             .disposed(by: disposeBag)
     }
