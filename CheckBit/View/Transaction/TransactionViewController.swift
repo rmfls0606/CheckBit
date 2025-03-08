@@ -20,6 +20,9 @@ class TransactionViewController: BaseViewController {
         label.textAlignment = .left
         return label
     }()
+    
+    private let headerView = TransactionHeaderView()
+    
     //CoinTableView
     private let coinTableView: UITableView = {
         let view = UITableView()
@@ -39,12 +42,19 @@ class TransactionViewController: BaseViewController {
     private let disposeBag = DisposeBag()
     
     override func configureHierarchy() {
+        self.view.addSubview(headerView)
         self.view.addSubview(coinTableView)
     }
     
     override func configureLayout() {
+        self.headerView.snp.makeConstraints { make in
+            make.top.leading.trailing.equalTo(self.view.safeAreaLayoutGuide)
+            make.height.equalTo(30)
+        }
+        
         self.coinTableView.snp.makeConstraints { make in
-            make.verticalEdges.equalTo(self.view.safeAreaLayoutGuide)
+            make.top.equalTo(headerView.snp.bottom)
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide)
             make.horizontalEdges.equalTo(self.view.safeAreaLayoutGuide).inset(16)
         }
     }
@@ -52,6 +62,8 @@ class TransactionViewController: BaseViewController {
     override func configureView() {
         self.view.backgroundColor = .white
         self.navigationItem.leftBarButtonItem = UIBarButtonItem( customView: navigationTitleLabel)
+        
+        self.headerView.backgroundColor = UIColor(resource: .box)
     }
     
     override func configureBind() {
