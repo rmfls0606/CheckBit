@@ -34,6 +34,7 @@ class TransactionViewController: BaseViewController {
         view.backgroundColor = .white
         view.separatorStyle = .none
         view.rowHeight = 40
+        view.showsVerticalScrollIndicator = false
         return view
     }()
     

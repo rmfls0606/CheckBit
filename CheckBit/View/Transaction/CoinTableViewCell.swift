@@ -71,7 +71,8 @@ class CoinTableViewCell: BaseTableViewCell {
     
     override func configureLayout() {
         self.stackView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.horizontalEdges.equalToSuperview()
+            make.centerY.equalToSuperview()
         }
     }
     
