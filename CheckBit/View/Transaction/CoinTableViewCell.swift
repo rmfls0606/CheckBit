@@ -85,8 +85,15 @@ class CoinTableViewCell: BaseTableViewCell {
     func insertData(data: MarketData){
         self.coinLabel.text = data.market
         self.currentPriceLabel.text = data.trade_price.formatted1fValue()
+        
+        let coinChangeColor = CoinChangeColor(rawValue: data.change)
+        
         self.changeRateLabel.text = data.signed_change_rate.formatted2fValue()
+        self.changeRateLabel.textColor = coinChangeColor?.textColor
+        
         self.changePriceLabel.text = data.signed_change_price.formatted2fValue()
+        self.changePriceLabel.textColor = coinChangeColor?.textColor
+        
         self.tradePriceLabel.text = data.trade_price.formattedMillionValue()
     }
 
