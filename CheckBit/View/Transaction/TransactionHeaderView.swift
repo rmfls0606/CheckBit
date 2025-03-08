@@ -51,7 +51,7 @@ class TransactionHeaderView: BaseView {
         let label: UILabel = {
             let label = UILabel()
             label.font = .systemFont(ofSize: 12, weight: .bold)
-            label.textColor = UIColor(resource: .main)
+            label.textColor = UIColor(resource: .secondary)
             label.textAlignment = .right
             label.text = labelText
             return label
@@ -62,7 +62,7 @@ class TransactionHeaderView: BaseView {
             let view = UIImageView()
             view.image = UIImage(systemName: "arrowtriangle.up.fill")
             view.contentMode = .scaleAspectFill
-            view.tintColor = UIColor(resource: .main)
+            view.tintColor = UIColor(resource: .secondary)
             return view
         }()
         
@@ -70,7 +70,7 @@ class TransactionHeaderView: BaseView {
             let view = UIImageView()
             view.image = UIImage(systemName: "arrowtriangle.down.fill")
             view.contentMode = .scaleAspectFill
-            view.tintColor = UIColor(resource: .main)
+            view.tintColor = UIColor(resource: .secondary)
             return view
         }()
 
