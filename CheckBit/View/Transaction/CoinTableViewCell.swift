@@ -88,7 +88,7 @@ class CoinTableViewCell: BaseTableViewCell {
         
         let coinChangeColor = CoinChangeColor(rawValue: data.change)
         
-        self.changeRateLabel.text = data.signed_change_rate.formatted2fValue()
+        self.changeRateLabel.text = data.signed_change_rate.formatted2fValue() + "%"
         self.changeRateLabel.textColor = coinChangeColor?.textColor
         
         self.changePriceLabel.text = data.signed_change_price.formatted2fValue()
