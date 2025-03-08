@@ -10,36 +10,6 @@ import RxSwift
 import RxCocoa
 
 final class TransactionViewModel {
-    
-    struct MarketData {
-      let market: String
-      let tradeDate: String
-      let tradeTime: String
-      let tradeDateKst: String
-      let tradeTimeKst: String
-      let tradeTimestamp: Int64
-      let openingPrice: Double
-      let highPrice: Double
-      let lowPrice: Double
-      let tradePrice: Double
-      let prevClosingPrice: Double
-      let change: String
-      let changePrice: Double
-      let changeRate: Double
-      let signedChangePrice: Double
-      let signedChangeRate: Double
-      let tradeVolume: Double
-      let accTradePrice: Double
-      let accTradePrice24h: Double
-      let accTradeVolume: Double
-      let accTradeVolume24h: Double
-      let highest52WeekPrice: Double
-      let highest52WeekDate: String
-      let lowest52WeekPrice: Double
-      let lowest52WeekDate: String
-      let timestamp: Int64
-    }
-
     let mockMarketData: [MarketData] = [
       MarketData(
         market: "KRW-BTC",
