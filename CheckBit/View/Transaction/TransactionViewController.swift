@@ -80,13 +80,13 @@ class TransactionViewController: BaseViewController {
                     )
             ){ (row, element, cell) in
                 cell.coinLabel.text = element.market
-                cell.currentPriceLabel.text = element.tradePrice
+                cell.currentPriceLabel.text = element.trade_price
                     .formatted1fValue()
-                cell.changeRateLabel.text = (element.signedChangeRate
+                cell.changeRateLabel.text = (element.signed_change_rate
                     .formatted2fValue() + "%")
-                cell.changePriceLabel.text = element.signedChangePrice
+                cell.changePriceLabel.text = element.signed_change_price
                     .formatted2fValue()
-                cell.tradePriceLabel.text = element.accTradePrice
+                cell.tradePriceLabel.text = element.acc_trade_price
                     .formattedMillionValue()
             }
             .disposed(by: disposeBag)
