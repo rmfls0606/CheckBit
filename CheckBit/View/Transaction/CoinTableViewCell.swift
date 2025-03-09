@@ -94,7 +94,7 @@ class CoinTableViewCell: BaseTableViewCell {
         self.changePriceLabel.text = data.signed_change_price.formatted2fValue()
         self.changePriceLabel.textColor = coinChangeColor?.textColor
         
-        self.tradePriceLabel.text = data.trade_price.formattedMillionValue()
+        self.tradePriceLabel.text = data.acc_trade_price.formattedMillionValue()
     }
 
 }
