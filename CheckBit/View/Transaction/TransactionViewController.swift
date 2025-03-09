@@ -68,7 +68,9 @@ class TransactionViewController: BaseViewController {
     }
     
     override func configureBind() {
-        let input = TransactionViewModel.Input()
+        let input = TransactionViewModel.Input(currentPriceTap: headerView.headerCurrentPriceButton.rx.tap,
+                                               comparePreDatTap: headerView.headerComparePreDayButton.rx.tap,
+                                               tradePriceTap: headerView.headerTradPriceButton.rx.tap)
         let output = viewModel.transform(input: input)
         
         output.coinList
