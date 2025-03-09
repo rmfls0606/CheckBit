@@ -10,7 +10,7 @@ import SnapKit
 
 class TransactionHeaderView: BaseView {
     private lazy var stackView: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [headerCoinLabel, headerCurrentPriceLabel, headerComparePreDayLabel, headerTradPriceLabel])
+        let view = UIStackView(arrangedSubviews: [headerCoinLabel, headerCurrentPriceButton, headerComparePreDayButton, headerTradPriceButton])
         view.axis = .horizontal
         view.distribution = .fillEqually
         view.spacing = 4
@@ -26,11 +26,11 @@ class TransactionHeaderView: BaseView {
         return label
     }()
     
-    private(set) lazy var headerCurrentPriceLabel: UIButton = combineHeaderButton(labelText: "현재가")
+    private(set) lazy var headerCurrentPriceButton: UIButton = combineHeaderButton(labelText: "현재가")
     
-    private(set) lazy var headerComparePreDayLabel: UIButton = combineHeaderButton(labelText: "전일대비")
+    private(set) lazy var headerComparePreDayButton: UIButton = combineHeaderButton(labelText: "전일대비")
     
-    private(set) lazy var headerTradPriceLabel: UIButton = combineHeaderButton(labelText: "거래대금")
+    private(set) lazy var headerTradPriceButton: UIButton = combineHeaderButton(labelText: "거래대금")
     
     override func configureHierarchy() {
         self.addSubview(stackView)
