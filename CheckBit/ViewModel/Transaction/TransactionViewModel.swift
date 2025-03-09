@@ -21,42 +21,34 @@ final class TransactionViewModel {
     
     struct Output{
         let coinList: PublishRelay<[MarketData]>
+        let sortItem: BehaviorRelay<SortItem>
     }
     
     func transform(input: Input) -> Output{
         let coinList = PublishRelay<[MarketData]>()
-        let sortRelay = BehaviorRelay<SortItem>(value: .tradePrice(.none))
+        let sortRelay = BehaviorRelay<SortItem>(value: .tradePrice(.desc))
         
         input.currentPriceTap
             .subscribe(with: self) { owner, _ in
-                if case SortItem.currentPrice(let option) = sortRelay.value{
+                let option = sortRelay.value.currentPriceOption
                     let newSortItem: SortItem = (option == .desc) ? .currentPrice(.asc) : ((option == .asc) ? .currentPrice(.none): .currentPrice(.desc))
                     sortRelay.accept(newSortItem)
-                }else{
-                    sortRelay.accept(.currentPrice(.desc))
-                }
             }
             .disposed(by: disposeBag)
         
         input.comparePreDatTap
             .subscribe(with: self) { owner, value in
-                if case SortItem.comaprePreDay(let option) = sortRelay.value{
-                    let newSortItem: SortItem = (option == .desc) ? .comaprePreDay(.asc) : ((option == .asc) ? .comaprePreDay(.none): .comaprePreDay(.desc))
+                let option = sortRelay.value.comparPredDayOptoin
+                    let newSortItem: SortItem = (option == .desc) ? .comparePreDay(.asc) : ((option == .asc) ? .comparePreDay(.none): .comparePreDay(.desc))
                     sortRelay.accept(newSortItem)
-                } else {
-                    sortRelay.accept(.comaprePreDay(.desc))
-                }
             }
             .disposed(by: disposeBag)
         
         input.tradePriceTap
             .subscribe(with: self) { owner, value in
-                if case SortItem.tradePrice(let option) = sortRelay.value{
+                let option = sortRelay.value.tradePriceOption
                     let newSortItem: SortItem = (option == .desc) ? .tradePrice(.asc) : ((option == .asc) ? .tradePrice(.none): .tradePrice(.desc))
                     sortRelay.accept(newSortItem)
-                } else {
-                    sortRelay.accept(.tradePrice(.desc))
-                }
             }
             .disposed(by: disposeBag)
         
@@ -82,6 +74,6 @@ final class TransactionViewModel {
         })
         .disposed(by: disposeBag)
         
-        return Output(coinList: coinList)
+        return Output(coinList: coinList, sortItem: sortRelay)
     }
 }
