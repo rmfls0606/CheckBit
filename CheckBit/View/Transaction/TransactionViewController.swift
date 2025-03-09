@@ -70,7 +70,7 @@ class TransactionViewController: BaseViewController {
     override func configureBind() {
         let input = TransactionViewModel.Input(currentPriceTap: headerView.headerCurrentPriceButton.rx.tap,
                                                comparePreDatTap: headerView.headerComparePreDayButton.rx.tap,
-                                               tradePriceTap: headerView.headerTradPriceButton.rx.tap)
+                                               tradePriceTap: headerView.headerTradePriceButton.rx.tap)
         let output = viewModel.transform(input: input)
         
         output.coinList
@@ -83,6 +83,14 @@ class TransactionViewController: BaseViewController {
             ){ (row, element, cell) in
                 let data = element
                 cell.insertData(data: data)
+            }
+            .disposed(by: disposeBag)
+        
+        output.sortItem
+            .subscribe(with: self) { owner, value in
+                owner.headerView.updateCurrentPriceStyle(sortItem: value)
+                owner.headerView.updateComparePreDayStyle(sortItem: value)
+                owner.headerView.updateTradePriceStyle(sortItem: value)
             }
             .disposed(by: disposeBag)
     }
