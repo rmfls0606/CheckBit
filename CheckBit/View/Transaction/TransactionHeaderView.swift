@@ -26,11 +26,11 @@ class TransactionHeaderView: BaseView {
         return label
     }()
     
-    private lazy var headerCurrentPriceLabel: UIView = combineHeaderLabel(labelText: "현재가")
+    private(set) lazy var headerCurrentPriceLabel: UIButton = combineHeaderButton(labelText: "현재가")
     
-    private lazy var headerComparePreDayLabel: UIView = combineHeaderLabel(labelText: "전일대비")
+    private(set) lazy var headerComparePreDayLabel: UIButton = combineHeaderButton(labelText: "전일대비")
     
-    private lazy var headerTradPriceLabel: UIView = combineHeaderLabel(labelText: "거래대금")
+    private(set) lazy var headerTradPriceLabel: UIButton = combineHeaderButton(labelText: "거래대금")
     
     override func configureHierarchy() {
         self.addSubview(stackView)
@@ -47,71 +47,42 @@ class TransactionHeaderView: BaseView {
         
     }
     
-    private func combineHeaderLabel(labelText: String) -> UIView {
-        let label: UILabel = {
-            let label = UILabel()
-            label.font = .systemFont(ofSize: 12, weight: .bold)
-            label.textColor = UIColor(resource: .secondary)
-            label.textAlignment = .right
-            label.text = labelText
-            return label
-        }()
+    private func combineHeaderButton(labelText: String) -> UIButton {
+        let button = UIButton()
         
-        
-        let upImageView: UIImageView = {
-            let view = UIImageView()
-            view.image = UIImage(systemName: "arrowtriangle.up.fill")
-            view.contentMode = .scaleAspectFill
-            view.tintColor = UIColor(resource: .secondary)
-            return view
-        }()
-        
-        let downImageView = {
-            let view = UIImageView()
-            view.image = UIImage(systemName: "arrowtriangle.down.fill")
-            view.contentMode = .scaleAspectFill
-            view.tintColor = UIColor(resource: .secondary)
-            return view
-        }()
+        button.setTitle(labelText, for: .normal)
+        button.setTitleColor(UIColor(resource: .secondary), for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 12, weight: .bold)
+        button.contentHorizontalAlignment = .right
 
+        let upImageView = UIImageView(image: UIImage(systemName: "arrowtriangle.up.fill"))
+        upImageView.contentMode = .scaleAspectFill
+        upImageView.tintColor = UIColor(resource: .secondary)
         upImageView.snp.makeConstraints { make in
             make.size.equalTo(6)
         }
         
+        let downImageView = UIImageView(image: UIImage(systemName: "arrowtriangle.down.fill"))
+        downImageView.contentMode = .scaleAspectFill
+        downImageView.tintColor = UIColor(resource: .secondary)
         downImageView.snp.makeConstraints { make in
             make.size.equalTo(6)
         }
         
-        let arrowVStackView: UIStackView = {
-            let view = UIStackView(arrangedSubviews: [upImageView, downImageView])
-            view.axis = .vertical
-            view.distribution = .fillEqually
-            view.alignment = .center
-            view.spacing = 0
-            return view
-        }()
-        
-        let containerView: UIView = {
-            let view = UIView()
-            view.addSubview(label)
-            view.addSubview(arrowVStackView)
-            return view
-        }()
-        
-        containerView.snp.makeConstraints { make in
-            make.height.equalTo(label.snp.height)
+        let arrowVStack = UIStackView(arrangedSubviews: [upImageView, downImageView])
+        arrowVStack.axis = .vertical
+        arrowVStack.distribution = .fillEqually
+        arrowVStack.alignment = .center
+        arrowVStack.spacing = 0
+
+        button.addSubview(arrowVStack)
+        arrowVStack.snp.makeConstraints{ make in
+            make.trailing.equalTo(button)
+            make.centerY.equalTo(button)
+            make.size.equalTo(CGSize(width: 12, height: 12))
         }
         
-        label.snp.makeConstraints { make in
-            make.trailing.equalTo(arrowVStackView.snp.leading).offset(-2)
-            make.centerY.equalToSuperview()
-        }
-        
-        arrowVStackView.snp.makeConstraints { make in
-            make.trailing.equalToSuperview()
-            make.centerY.equalToSuperview()
-        }
-        
-        return containerView
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
+        return button
     }
 }
