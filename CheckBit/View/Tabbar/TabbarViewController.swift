@@ -24,7 +24,7 @@ final class TabbarViewController: UITabBarController {
         )
         
         
-        let secondVC = CoinInformationViewController()
+        let secondVC = UINavigationController(rootViewController: CoinInformationViewController())
         secondVC.tabBarItem = UITabBarItem(
             title: "코인정보",
             image: UIImage(systemName: "chart.bar.fill"),
