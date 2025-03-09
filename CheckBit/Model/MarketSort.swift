@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum SortType{case desc, asc}
+enum SortType{case desc, asc, none}
 
 enum SortItem{
     case currentPrice(SortType)
@@ -18,15 +18,15 @@ enum SortItem{
         switch self{
         case .currentPrice(let option):
             return { coinList in
-                coinList.sorted{ option == .desc ? $0.trade_price > $1.trade_price : $0.trade_price < $1.trade_price }
+                coinList.sorted{ option == .desc ? $0.trade_price > $1.trade_price : (option == .asc ? $0.trade_price < $1.trade_price : $0.acc_trade_price < $1.acc_trade_price) }
             }
         case .comaprePreDay(let option):
             return { coinList in
-                coinList.sorted { option == .desc ? $0.signed_change_rate > $1.signed_change_rate : $0.signed_change_rate < $1.signed_change_rate }
+                coinList.sorted { option == .desc ? $0.signed_change_rate > $1.signed_change_rate : (option == .asc ? $0.signed_change_rate < $1.signed_change_rate : $0.acc_trade_price < $1.acc_trade_price) }
             }
         case .tradePrice(let option):
             return { coinList in
-                coinList.sorted { option == .desc ? $0.acc_trade_price > $1.acc_trade_price : $0.acc_trade_price < $1.acc_trade_price }
+                coinList.sorted { option == .asc ? $0.acc_trade_price > $1.acc_trade_price : $0.acc_trade_price < $1.acc_trade_price }
             }
         }
     }
