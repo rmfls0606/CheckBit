@@ -18,6 +18,16 @@ protocol NetworkRequest {
     var method: HTTPMethod { get }
 }
 
+extension NetworkRequest{
+    var parameters: [String: Any]{
+        return [:]
+    }
+    
+    var method: HTTPMethod{
+        return .get
+    }
+}
+
 enum UpbitRequest: NetworkRequest{
     case market
     
@@ -35,8 +45,19 @@ enum UpbitRequest: NetworkRequest{
     var parameters: [String : Any]{
         return ["quote_currencies":"KRW"]
     }
+}
+
+enum CoingeckoRequest: NetworkRequest{
+    case trending
     
-    var method: HTTPMethod{
-        return .get
+    var baseURL: String{
+        return NetworkURL.coinGeckoURL
+    }
+    
+    var endPoint: URL{
+        switch self{
+        case .trending:
+            return URL(string: baseURL + "search/trending")!
+        }
     }
 }
