@@ -51,11 +51,11 @@ class CoinInformationViewController: BaseViewController {
         
         return textField
     }()
-
+    
     private lazy var contentStackView: UIStackView = {
         let stack = UIStackView(arrangedSubviews: [popularSearchView, popularNFTView])
         stack.axis = .vertical
-//        stack.spacing = 10
+        //        stack.spacing = 10
         stack.distribution = .fillEqually
         stack.alignment = .fill
         return stack
@@ -72,8 +72,8 @@ class CoinInformationViewController: BaseViewController {
     
     override func configureHierarchy() {
         self.view.addSubview(textFieldBox)
-//        self.view.addSubview(popularSearchView)
-//        self.view.addSubview(popularNFTView)
+        //        self.view.addSubview(popularSearchView)
+        //        self.view.addSubview(popularNFTView)
         self.view.addSubview(contentStackView)
     }
     
@@ -90,21 +90,23 @@ class CoinInformationViewController: BaseViewController {
             make.leading.trailing.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
         
-//        self.popularSearchView.snp.makeConstraints { make in
-//            make.top.equalTo(textFieldBox.snp.bottom).offset(10)
-//            make.leading.trailing.equalTo(self.view.safeAreaLayoutGuide)
-//        }
-//        
-//        self.popularNFTView.snp.makeConstraints { make in
-//            make.leading.trailing.equalTo(self.view.safeAreaLayoutGuide)
-//            make.bottom.equalTo(self.view.safeAreaLayoutGuide)
-//            make.height.equalTo(300)
-//        }
+        //        self.popularSearchView.snp.makeConstraints { make in
+        //            make.top.equalTo(textFieldBox.snp.bottom).offset(10)
+        //            make.leading.trailing.equalTo(self.view.safeAreaLayoutGuide)
+        //        }
+        //
+        //        self.popularNFTView.snp.makeConstraints { make in
+        //            make.leading.trailing.equalTo(self.view.safeAreaLayoutGuide)
+        //            make.bottom.equalTo(self.view.safeAreaLayoutGuide)
+        //            make.height.equalTo(300)
+        //        }
     }
     
     override func configureView() {
         self.view.backgroundColor = .white
         self.navigationItem.leftBarButtonItem = UIBarButtonItem( customView: navigationTitleLabel)
+        
+        self.popularNFTView.configureDelegate(delegate: self)
     }
     
     override func configureBind() {
@@ -123,12 +125,23 @@ class CoinInformationViewController: BaseViewController {
             })
             .disposed(by: disposeBag)
         
-        Observable.just(["1", "2", "3"])
-            .bind(to: popularNFTView.nftCollectionView.rx.items(cellIdentifier: "cell", cellType: UICollectionViewCell.self)){
+        Observable.just(["1", "2", "3", "4", "5", "6", "7"])
+            .bind(to: popularNFTView.nftCollectionView.rx.items(cellIdentifier: PopularNFTCollectionViewCell.identifier, cellType: PopularNFTCollectionViewCell.self)){
                 (row, element, cell) in
-                cell.backgroundColor = .yellow
+                cell.nftImageView.image = UIImage(systemName: "person")
+                cell.nftNameLabel.text = "Meebits"
+                cell.nftInfoLabel.text = "0.66 ETH"
+                cell.nftArrowImageView.image = UIImage(systemName: "chevron.right")
+                cell.nftChangeRateLabel.text = "12.34%"
             }
             .disposed(by: disposeBag)
     }
 }
 
+extension CoinInformationViewController: UICollectionViewDelegateFlowLayout{
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        let height = collectionView.bounds.height
+        return CGSize(width: 72, height: height)
+    }
+}

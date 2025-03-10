@@ -20,8 +20,7 @@ class PopularNFTView: BaseView {
     
     private(set) lazy var nftCollectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout())
-        view.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
-        view.backgroundColor = .green
+        view.register(PopularNFTCollectionViewCell.self, forCellWithReuseIdentifier: PopularNFTCollectionViewCell.identifier)
         return view
     }()
     
@@ -40,7 +39,7 @@ class PopularNFTView: BaseView {
         self.nftCollectionView.snp.makeConstraints { make in
             self.nftCollectionView.snp.makeConstraints { make in
                 make.top.equalTo(popularTitleLable.snp.bottom).offset(16)
-                make.leading.trailing.equalToSuperview().inset(16)
+                make.leading.trailing.equalToSuperview()
                 make.bottom.equalToSuperview()
             }
         }
@@ -61,8 +60,12 @@ class PopularNFTView: BaseView {
         layout.itemSize = CGSize(width: width, height: 150)
         layout.sectionInset = UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
         layout.minimumInteritemSpacing = spacing
-        layout.minimumLineSpacing = spacing
+        
         layout.scrollDirection = .horizontal
         return layout
+    }
+    
+    func configureDelegate(delegate: UICollectionViewDelegateFlowLayout){
+        self.nftCollectionView.delegate = delegate
     }
 }
