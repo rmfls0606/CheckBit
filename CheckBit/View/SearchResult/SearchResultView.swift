@@ -33,10 +33,17 @@ class SearchResultView: BaseView {
         view.backgroundColor = UIColor(resource: .secondary)
         return view
     }()
+    
+    private let searchResultTableView: UITableView = {
+        let view = UITableView()
+        view.backgroundColor = .red
+        return view
+    }()
 
     override func configureHierarchy() {
         self.addSubview(buttonStackView)
         self.addSubview(bottomLineView)
+        self.addSubview(searchResultTableView)
     }
     
     override func configureLayout() {
@@ -49,6 +56,11 @@ class SearchResultView: BaseView {
             make.top.equalTo(buttonStackView.snp.bottom)
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(1)
+        }
+        
+        self.searchResultTableView.snp.makeConstraints { make in
+            make.top.equalTo(buttonStackView.snp.bottom)
+            make.leading.trailing.bottom.equalToSuperview()
         }
     }
     
