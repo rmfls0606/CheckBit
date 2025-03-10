@@ -89,6 +89,12 @@ class CoinInformationViewController: BaseViewController {
         let input = CoinInformationViewModel.Input()
         let ouput = viewModel.transform(input: input)
         
+        ouput.dateString
+            .subscribe(with: self) { owner, value in
+                owner.popularSearchView.updateDateString(date: value)
+            }
+            .disposed(by: disposeBag)
+        
         ouput.trendingList
             .subscribe(with: self, onNext: { owner, value in
                 owner.popularSearchView.updateSnapshot(trendingList: value)

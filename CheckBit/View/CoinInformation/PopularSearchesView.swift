@@ -135,4 +135,8 @@ class PopularSearchesView: BaseView {
             self.dataSource.apply(snapshot, animatingDifferences: true)
         }
     }
+    
+    func updateDateString(date: String){
+        self.dateLabel.text = date
+    }
 }
