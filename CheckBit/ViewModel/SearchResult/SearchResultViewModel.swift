@@ -10,16 +10,61 @@ import RxSwift
 import RxCocoa
 
 class SearchResultViewModel {
+    
+    private let disposeBag = DisposeBag()
+    
     struct Input{
         let searchText: ControlProperty<String>
+        let searchTap: ControlEvent<Void>
     }
     
     struct Output{
+        let searchResult: PublishRelay<[SearchCoin]>
     }
     
     func transform(input: Input) -> Output{
-     
+        let searchResult = PublishRelay<[SearchCoin]>()
+        let searchQuery = BehaviorRelay<String>(value: "")
         
-        return Output()
+        input.searchText
+            .map{ $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .filter{ !$0.isEmpty }
+            .bind(to: searchQuery)
+            .disposed(by: disposeBag)
+        
+        input.searchTap
+            .withLatestFrom(input.searchText)
+            .map{ $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .filter{ !$0.isEmpty }
+            .distinctUntilChanged()
+            .bind(to: searchQuery)
+            .disposed(by: disposeBag)
+        
+        Observable<Int>.interval(.seconds(900), scheduler: MainScheduler.instance)
+            .startWith(0)
+            .withLatestFrom(searchQuery)
+            .filter{ !$0.isEmpty }
+            .flatMap { currentQuery -> Single<[SearchCoin]> in
+                return NetworkManager.shared.callBackUpbitWithSingle(api: CoingeckoRequest.search(query: currentQuery))
+                    .flatMap { (result: Result<SearchData, Error>) -> Single<[SearchCoin]> in
+//                        print(currentQuery)
+                        switch result {
+                        case .success(let data):
+                            print(data)
+                            return Single.just(data.coins)
+                        case .failure(let error):
+                            print("검색 API 에러: \(error.localizedDescription)")
+                            return Single.just([])
+                        }
+                    }
+            }
+            .subscribe(onNext:{ value in
+                searchResult.accept(value)
+            })
+            .disposed(by: disposeBag)
+        
+//        print("검색어",searchQuery.value)
+        
+        return Output(searchResult: searchResult)
     }
 }

@@ -43,13 +43,13 @@ class SearchResultViewController: BaseViewController {
     }
     
     override func configureBind() {
-        let input = SearchResultViewModel.Input(searchText: searchBar.rx.text.orEmpty)
+        let input = SearchResultViewModel.Input(searchText: searchBar.rx.text.orEmpty, searchTap: searchBar.rx.searchButtonClicked)
         let output = viewModel.transform(input: input)
         
-        Observable.just([1,2,3,4,5,6,7,8,9])
+        output.searchResult
             .bind(to: searcnResultView.searchResultTableView.rx.items(cellIdentifier: SearchResultTableViewCell.identifier, cellType: SearchResultTableViewCell.self)){
                 (row, element, cell) in
-                
+                print(element)
             }
             .disposed(by: disposeBag)
     }
