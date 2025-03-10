@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class PopularNFTView: BaseView {
 
@@ -17,8 +18,16 @@ class PopularNFTView: BaseView {
         return label
     }()
     
+    private(set) lazy var nftCollectionView: UICollectionView = {
+        let view = UICollectionView(frame: .zero, collectionViewLayout: layout())
+        view.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        view.backgroundColor = .green
+        return view
+    }()
+    
     override func configureHierarchy() {
         self.addSubview(popularTitleLable)
+        self.addSubview(nftCollectionView)
     }
     
     override func configureLayout() {
@@ -27,9 +36,33 @@ class PopularNFTView: BaseView {
                 make.leading.top.equalToSuperview().inset(16)
             }
         }
+        
+        self.nftCollectionView.snp.makeConstraints { make in
+            self.nftCollectionView.snp.makeConstraints { make in
+                make.top.equalTo(popularTitleLable.snp.bottom).offset(16)
+                make.leading.trailing.equalToSuperview().inset(16)
+                make.bottom.equalToSuperview()
+            }
+        }
     }
     
     override func configureView() {
         
+    }
+    
+    
+    private func layout() -> UICollectionViewFlowLayout {
+        let layout = UICollectionViewFlowLayout()
+        
+        let width = 72.0
+        let spacing = 4.0
+        let padding = 16.0
+        
+        layout.itemSize = CGSize(width: width, height: 150)
+        layout.sectionInset = UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
+        layout.minimumInteritemSpacing = spacing
+        layout.minimumLineSpacing = spacing
+        layout.scrollDirection = .horizontal
+        return layout
     }
 }

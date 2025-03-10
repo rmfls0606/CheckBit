@@ -122,6 +122,13 @@ class CoinInformationViewController: BaseViewController {
                 owner.popularSearchView.updateSnapshot(trendingList: value)
             })
             .disposed(by: disposeBag)
+        
+        Observable.just(["1", "2", "3"])
+            .bind(to: popularNFTView.nftCollectionView.rx.items(cellIdentifier: "cell", cellType: UICollectionViewCell.self)){
+                (row, element, cell) in
+                cell.backgroundColor = .yellow
+            }
+            .disposed(by: disposeBag)
     }
 }
 
