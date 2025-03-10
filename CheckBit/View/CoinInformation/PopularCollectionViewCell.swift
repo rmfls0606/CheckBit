@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 class PopularCollectionViewCell: BaseCollectionViewCell {
     private(set) var popularRankLabel: UILabel = {
@@ -123,5 +124,42 @@ class PopularCollectionViewCell: BaseCollectionViewCell {
     
     override func configureView() {
         
+    }
+    
+    func insertData(data: TrendingCoinItem){
+        self.popularRankLabel.text = "1"
+        
+        if let url = URL(string: data.item.thumb){
+            self.popularCoinImageView.kf.setImage(with: url)
+        }else{
+            self.popularCoinImageView.image = UIImage(systemName: "person.fill.circle")
+        }
+        
+        self.popularCoinNameLabel.text = data.item.name
+        self.popularCoinCompanyLabel.text = data.item.symbol
+        self.popularChangeIconImageView.image = UIImage(systemName: "arrowtriangle.up.fill")
+        
+        if let changeRate = data.item.data.price_change_percentage_24h["krw"]{
+            self.popularChangeLabel.text = changeRate.formatted2fValue()
+            
+            let newColor: UIColor
+            var arrowImageName: String = ""
+            if changeRate > 0{
+                newColor = CoinChangeColor.rise.textColor
+                arrowImageName = ArrowImage.up.rawValue
+            }else if changeRate == 0{
+                newColor = CoinChangeColor.even.textColor
+            }else{
+                newColor = CoinChangeColor.fall.textColor
+                arrowImageName = ArrowImage.down.rawValue
+            }
+            
+            self.popularChangeLabel.textColor = newColor
+            self.popularChangeIconImageView.image = UIImage(systemName: arrowImageName)
+            self.popularChangeIconImageView.tintColor = newColor
+    
+        }else{
+            self.popularRankLabel.text = "-"
+        }
     }
 }

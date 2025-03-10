@@ -52,11 +52,11 @@ class PopularSearchesView: BaseView {
         }
     }
     
-    var dataSource: UICollectionViewDiffableDataSource<String, Int>!
+    var dataSource: UICollectionViewDiffableDataSource<String, TrendingCoinItem>!
     
     override func configureView() {
         configureDataSource()
-        updateSnapshot()
+        updateSnapshot(trendingList: [])
     }
     
     func createLayout() -> UICollectionViewLayout {
@@ -106,13 +106,8 @@ class PopularSearchesView: BaseView {
     }
     
     private func configureDataSource(){
-        let cellRegistraion = UICollectionView.CellRegistration<PopularCollectionViewCell, Int> { cell, indexPath, itemIdentifier in
-            cell.popularRankLabel.text = "\(itemIdentifier)"
-            cell.popularCoinImageView.image = UIImage(systemName: "person")
-            cell.popularCoinNameLabel.text = "OMfdfdsfdfds"
-            cell.popularCoinCompanyLabel.text = "MANTRAdsfdsfdsfdsfsf"
-            cell.popularChangeIconImageView.image = UIImage(systemName: "arrowtriangle.up.fill")
-            cell.popularChangeLabel.text = "1000%"
+        let cellRegistraion = UICollectionView.CellRegistration<PopularCollectionViewCell, TrendingCoinItem> { cell, indexPath, itemIdentifier in
+            cell.insertData(data: itemIdentifier)
         }
         
         dataSource = UICollectionViewDiffableDataSource(
@@ -130,10 +125,13 @@ class PopularSearchesView: BaseView {
             }
         )
     }
-    private func updateSnapshot(){
-        var snapshot = NSDiffableDataSourceSnapshot<String, Int>()
+    func updateSnapshot(trendingList: [TrendingCoinItem]){
+        var snapshot = NSDiffableDataSourceSnapshot<String, TrendingCoinItem>()
         snapshot.appendSections(["PopularSearches"])
-        snapshot.appendItems([1,2,3,4,5,6, 7, 8, 9, 10, 11, 12, 13, 14], toSection: "PopularSearches")
-        dataSource.apply(snapshot)
+        snapshot.appendItems(trendingList, toSection: "PopularSearches")
+        
+        DispatchQueue.main.async{
+            self.dataSource.apply(snapshot, animatingDifferences: true)
+        }
     }
 }

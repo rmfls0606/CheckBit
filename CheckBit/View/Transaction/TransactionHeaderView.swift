@@ -8,11 +8,6 @@
 import UIKit
 import SnapKit
 
-private enum ArrowImage: String {
-    case up = "arrowtriangle.up.fill"
-    case down = "arrowtriangle.down.fill"
-}
-
 class TransactionHeaderView: BaseView {
     private lazy var stackView: UIStackView = {
         let view = UIStackView(arrangedSubviews: [headerCoinLabel, headerCurrentPriceButton, headerComparePreDayButton, headerTradePriceButton])

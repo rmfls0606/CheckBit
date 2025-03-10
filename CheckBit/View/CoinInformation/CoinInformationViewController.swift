@@ -7,8 +7,14 @@
 
 import UIKit
 import SnapKit
+import RxSwift
+import RxCocoa
 
 class CoinInformationViewController: BaseViewController {
+    
+    private let viewModel = CoinInformationViewModel()
+    private let disposeBag = DisposeBag()
+    
     //NavigationTitle
     private let navigationTitleLabel: UILabel = {
         let label = UILabel()
@@ -80,7 +86,14 @@ class CoinInformationViewController: BaseViewController {
     }
     
     override func configureBind() {
+        let input = CoinInformationViewModel.Input()
+        let ouput = viewModel.transform(input: input)
         
+        ouput.trendingList
+            .subscribe(with: self, onNext: { owner, value in
+                owner.popularSearchView.updateSnapshot(trendingList: value)
+            })
+            .disposed(by: disposeBag)
     }
 }
 
