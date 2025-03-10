@@ -49,6 +49,7 @@ enum UpbitRequest: NetworkRequest{
 
 enum CoingeckoRequest: NetworkRequest{
     case trending
+    case search(query: String)
     
     var baseURL: String{
         return NetworkURL.coinGeckoURL
@@ -58,6 +59,8 @@ enum CoingeckoRequest: NetworkRequest{
         switch self{
         case .trending:
             return URL(string: baseURL + "search/trending")!
+        case .search(let query):
+            return URL(string: baseURL + "search/\(query)")!
         }
     }
 }
