@@ -19,7 +19,7 @@ class CoinInformationViewController: BaseViewController {
         return label
     }()
     
-    private lazy var textFieldBox: UIView = {
+    private(set) lazy var textFieldBox: UIView = {
         let view = UIView()
         view.addSubview(textField)
         view.layer.borderColor = UIColor(resource: .secondary).cgColor

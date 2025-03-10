@@ -62,14 +62,14 @@ class PopularSearchesView: BaseView {
     func createLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .fractionalHeight(1/7)
+            heightDimension: .estimated(50)
         )
         
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let leftGroupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(0.5),
-            heightDimension: .fractionalHeight(1.0)
+            heightDimension: .estimated(50)
         )
         let leftGroup = NSCollectionLayoutGroup.vertical(
             layoutSize: leftGroupSize,
@@ -78,7 +78,7 @@ class PopularSearchesView: BaseView {
         
         let rightGroupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(0.5),
-            heightDimension: .fractionalHeight(1.0)
+            heightDimension: .estimated(50)
         )
         
         let rightGroup = NSCollectionLayoutGroup.vertical(
@@ -95,16 +95,24 @@ class PopularSearchesView: BaseView {
             subitems: [leftGroup, rightGroup]
         )
         
+        horizontalGroup.interItemSpacing = .fixed(20)
+        
         let section = NSCollectionLayoutSection(group: horizontalGroup)
+        section.interGroupSpacing = 20
+        
         
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
     }
     
     private func configureDataSource(){
-        let cellRegistraion = UICollectionView.CellRegistration<UICollectionViewCell, Int> { cell, indexPath, itemIdentifier in
-            
-            cell.backgroundColor = .yellow
+        let cellRegistraion = UICollectionView.CellRegistration<PopularCollectionViewCell, Int> { cell, indexPath, itemIdentifier in
+            cell.popularRankLabel.text = "\(itemIdentifier)"
+            cell.popularCoinImageView.image = UIImage(systemName: "person")
+            cell.popularCoinNameLabel.text = "OMfdfdsfdfds"
+            cell.popularCoinCompanyLabel.text = "MANTRAdsfdsfdsfdsfsf"
+            cell.popularChangeIconImageView.image = UIImage(systemName: "arrowtriangle.up.fill")
+            cell.popularChangeLabel.text = "1000%"
         }
         
         dataSource = UICollectionViewDiffableDataSource(
@@ -125,7 +133,7 @@ class PopularSearchesView: BaseView {
     private func updateSnapshot(){
         var snapshot = NSDiffableDataSourceSnapshot<String, Int>()
         snapshot.appendSections(["PopularSearches"])
-        snapshot.appendItems([1,2,3,4,5], toSection: "PopularSearches")
+        snapshot.appendItems([1,2,3,4,5,6, 7, 8, 9, 10, 11, 12, 13, 14], toSection: "PopularSearches")
         dataSource.apply(snapshot)
     }
 }
