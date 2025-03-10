@@ -34,9 +34,11 @@ class SearchResultView: BaseView {
         return view
     }()
     
-    private let searchResultTableView: UITableView = {
+    private(set) var searchResultTableView: UITableView = {
         let view = UITableView()
-        view.backgroundColor = .red
+        view.register(SearchResultTableViewCell.self, forCellReuseIdentifier: SearchResultTableViewCell.identifier)
+        view.rowHeight = 40
+        view.separatorStyle = .none
         return view
     }()
 

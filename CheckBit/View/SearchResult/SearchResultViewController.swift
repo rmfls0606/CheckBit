@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class SearchResultViewController: BaseViewController {
     
@@ -18,6 +20,7 @@ class SearchResultViewController: BaseViewController {
     }()
     
     private let searcnResultView = SearchResultView()
+    private let disposeBag = DisposeBag()
 
     override func configureHierarchy() {
         self.view.addSubview(searcnResultView)
@@ -39,7 +42,12 @@ class SearchResultViewController: BaseViewController {
     }
     
     override func configureBind() {
-        
+        Observable.just([1,2,3,4,5,6,7,8,9])
+            .bind(to: searcnResultView.searchResultTableView.rx.items(cellIdentifier: SearchResultTableViewCell.identifier, cellType: SearchResultTableViewCell.self)){
+                (row, element, cell) in
+                
+            }
+            .disposed(by: disposeBag)
     }
     
 }
