@@ -126,8 +126,8 @@ class PopularCollectionViewCell: BaseCollectionViewCell {
         
     }
     
-    func insertData(data: TrendingCoinItem){
-        self.popularRankLabel.text = "1"
+    func insertData(rank: Int, data: TrendingCoinItem){
+        self.popularRankLabel.text = "\(rank)"
         
         if let url = URL(string: data.item.thumb){
             self.popularCoinImageView.kf.setImage(with: url)

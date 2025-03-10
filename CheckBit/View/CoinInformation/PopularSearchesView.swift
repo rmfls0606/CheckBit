@@ -107,7 +107,7 @@ class PopularSearchesView: BaseView {
     
     private func configureDataSource(){
         let cellRegistraion = UICollectionView.CellRegistration<PopularCollectionViewCell, TrendingCoinItem> { cell, indexPath, itemIdentifier in
-            cell.insertData(data: itemIdentifier)
+            cell.insertData(rank: indexPath.row + 1, data: itemIdentifier)
         }
         
         dataSource = UICollectionViewDiffableDataSource(
@@ -125,6 +125,7 @@ class PopularSearchesView: BaseView {
             }
         )
     }
+    
     func updateSnapshot(trendingList: [TrendingCoinItem]){
         var snapshot = NSDiffableDataSourceSnapshot<String, TrendingCoinItem>()
         snapshot.appendSections(["PopularSearches"])
