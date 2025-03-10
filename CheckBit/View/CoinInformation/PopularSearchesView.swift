@@ -9,6 +9,13 @@ import UIKit
 import SnapKit
 
 class PopularSearchesView: BaseView {
+    private lazy var containerView: UIView = {
+        let view = UIView()
+        view.addSubview(popularTitleLable)
+        view.addSubview(dateLabel)
+        return view
+    }()
+    
     private let popularTitleLable: UILabel = {
         let label = UILabel()
         label.text = "인기 검색어"
@@ -25,29 +32,33 @@ class PopularSearchesView: BaseView {
         return label
     }()
     
-    private lazy var popularCollectionView: UICollectionView = {
+    private(set) lazy var popularCollectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
         view.isScrollEnabled = false
         return view
     }()
     
     override func configureHierarchy() {
-        self.addSubview(popularTitleLable)
-        self.addSubview(dateLabel)
+        self.addSubview(containerView)
         self.addSubview(popularCollectionView)
     }
     
     override func configureLayout() {
+        
+        self.containerView.snp.makeConstraints { make in
+            make.top.leading.trailing.equalToSuperview()
+        }
+        
         self.popularTitleLable.snp.makeConstraints { make in
-            make.leading.top.equalToSuperview().inset(16)
+            make.leading.top.bottom.equalToSuperview().inset(16)
         }
         
         self.dateLabel.snp.makeConstraints { make in
-            make.trailing.top.equalToSuperview().inset(16)
+            make.trailing.top.bottom.equalToSuperview().inset(16)
         }
         
         self.popularCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(popularTitleLable.snp.bottom).offset(10)
+            make.top.equalTo(containerView.snp.bottom)
             make.leading.trailing.bottom.equalToSuperview().inset(16)
         }
     }
@@ -62,14 +73,14 @@ class PopularSearchesView: BaseView {
     func createLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(50)
+            heightDimension: .estimated(40)
         )
         
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let leftGroupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(0.5),
-            heightDimension: .estimated(50)
+            heightDimension: .estimated(40)
         )
         let leftGroup = NSCollectionLayoutGroup.vertical(
             layoutSize: leftGroupSize,
@@ -78,7 +89,7 @@ class PopularSearchesView: BaseView {
         
         let rightGroupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(0.5),
-            heightDimension: .estimated(50)
+            heightDimension: .estimated(40)
         )
         
         let rightGroup = NSCollectionLayoutGroup.vertical(
