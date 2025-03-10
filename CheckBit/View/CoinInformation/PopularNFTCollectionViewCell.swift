@@ -91,6 +91,8 @@ class PopularNFTCollectionViewCell: BaseCollectionViewCell {
         self.nftChangeStackView.snp.makeConstraints { make in
             make.top.equalTo(nftInfoLabel.snp.bottom).offset(2)
             make.centerX.equalToSuperview()
+            make.leading.greaterThanOrEqualToSuperview()
+            make.trailing.lessThanOrEqualToSuperview()
         }
         
         self.nftArrowImageView.snp.makeConstraints { make in
