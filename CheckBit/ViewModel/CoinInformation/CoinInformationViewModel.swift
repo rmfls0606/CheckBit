@@ -22,7 +22,7 @@ final class CoinInformationViewModel {
         let trendingList: PublishRelay<[TrendingCoinItem]>
         let nftList: PublishRelay<[TrendingNFTItem]>
         let dateString: BehaviorRelay<String>
-        let searchResut: PublishRelay<String>
+        let searchResult: PublishRelay<String>
     }
     
     func transform(input: Input) -> Output{
@@ -74,7 +74,7 @@ final class CoinInformationViewModel {
             })
             .disposed(by: disposeBag)
         
-        return Output(trendingList: trendingList, nftList: nftList, dateString: dateString, searchResut: searchResult)
+        return Output(trendingList: trendingList, nftList: nftList, dateString: dateString, searchResult: searchResult)
     }
 }
 

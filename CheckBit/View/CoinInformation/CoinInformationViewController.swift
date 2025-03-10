@@ -121,7 +121,7 @@ class CoinInformationViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
         
-        output.searchResut
+        output.searchResult
             .subscribe(with: self) { owner, text in
                 owner.view.endEditing(true)
                 

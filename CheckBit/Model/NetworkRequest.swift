@@ -19,10 +19,6 @@ protocol NetworkRequest {
 }
 
 extension NetworkRequest{
-    var parameters: [String: Any]{
-        return [:]
-    }
-    
     var method: HTTPMethod{
         return .get
     }
@@ -58,9 +54,18 @@ enum CoingeckoRequest: NetworkRequest{
     var endPoint: URL{
         switch self{
         case .trending:
-            return URL(string: baseURL + "search/trending")!
+            return URL(string: baseURL + "/trending")!
+        case .search:
+            return URL(string: baseURL)!
+        }
+    }
+    
+    var parameters: [String : Any]{
+        switch self{
+        case .trending:
+            return [:]
         case .search(let query):
-            return URL(string: baseURL + "search/\(query)")!
+            return ["query": query]
         }
     }
 }
