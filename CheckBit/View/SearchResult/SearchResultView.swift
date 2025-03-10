@@ -10,11 +10,13 @@ import SnapKit
 
 class SearchResultView: BaseView {
     
+    private let tabItems = TabItem.allCases
+    private var buttons: [UIButton] = []
+    
     private lazy var buttonStackView: UIStackView = {
-        let title = ["코인", "NFT", "거래소"]
-        let buttons = title.map{ title -> UIButton in
+        let buttons = tabItems.map{ item -> UIButton in
             let button = UIButton()
-            button.setTitle(title, for: .normal)
+            button.setTitle(item.title, for: .normal)
             button.setTitleColor(UIColor(resource: .secondary), for: .normal)
             button.titleLabel?.font = .systemFont(ofSize: 12)
             return button
