@@ -9,7 +9,6 @@ import Foundation
 
 struct SearchData: Decodable {
     let coins: [SearchCoin]
-    let nfts: [SearchNFT]
 }
 
 struct SearchCoin: Decodable {
@@ -20,12 +19,5 @@ struct SearchCoin: Decodable {
     let market_cap_rank: Int
     let thumb: String
     let large: String
-}
-
-struct SearchNFT: Decodable {
-    let id: String
-    let name: String
-    let symbol: String
-    let thumb: String
 }
 
