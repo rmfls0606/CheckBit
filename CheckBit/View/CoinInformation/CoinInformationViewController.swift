@@ -120,12 +120,14 @@ class CoinInformationViewController: BaseViewController {
             .disposed(by: disposeBag)
         
         output.trendingList
+            .map{ Array($0.prefix(14)) }
             .subscribe(with: self, onNext: { owner, value in
                 owner.popularSearchView.updateSnapshot(trendingList: value)
             })
             .disposed(by: disposeBag)
         
         output.nftList
+            .map{ Array($0.prefix(7)) }
             .bind(to: popularNFTView.nftCollectionView.rx.items(cellIdentifier: PopularNFTCollectionViewCell.identifier, cellType: PopularNFTCollectionViewCell.self)){
                 (row, element, cell) in
                 cell.insertData(data: element)
