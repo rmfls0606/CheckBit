@@ -55,8 +55,8 @@ final class TransactionViewModel {
         let networkData = Observable<Int>.interval(.seconds(5), scheduler: MainScheduler.instance)
             .startWith(0)
             .flatMap { _ in
-                NetworkManager.shared.callBackUpbitWithSingle()
-                    .flatMap { result -> Single<[MarketData]> in
+                NetworkManager.shared.callBackUpbitWithSingle(api: UpbitRequest.market)
+                    .flatMap { (result: Result<[MarketData], Error>) -> Single<[MarketData]> in
                         switch result {
                         case .success(let data):
                             return Single.just(data)

@@ -14,17 +14,22 @@ final class NetworkManager{
     
     private init(){ }
     
-    func callBackUpbitWithSingle() -> Single<Result<[MarketData], Error>>{
+    func callBackUpbitWithSingle<T: Decodable>(api: NetworkRequest) -> Single<Result<T, Error>>{
         
-        return Single<Result<[MarketData], Error>>.create{ value in
-            let url = NetworkURL.upbitURL
+        return Single<Result<T, Error>>.create{ value in
             
-            guard let url = NetworkURL.upbitURL else{
+            var components = URLComponents(url: api.endPoint, resolvingAgainstBaseURL: false)!
+            components.queryItems = api.parameters.map { key, value in
+                URLQueryItem(name: key, value: "\(value)")
+            }
+            
+            guard let url = components.url else{
                 print("잘못된 URL 정보 입니다.")
                 return Disposables.create()
             }
             
             URLSession.shared.dataTask(with: url){ data, response, error in
+                
                 if let error = error{
                     print("error 발생")
                     return
@@ -38,7 +43,7 @@ final class NetworkManager{
                 
                 if let data = data{
                     do{
-                        let result = try JSONDecoder().decode([MarketData].self
+                        let result = try JSONDecoder().decode(T.self
                                                               , from:  data)
                         value(.success(.success(result)))
                     }catch(let error){
