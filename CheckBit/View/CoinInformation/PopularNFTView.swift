@@ -21,6 +21,7 @@ class PopularNFTView: BaseView {
     private(set) lazy var nftCollectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout())
         view.register(PopularNFTCollectionViewCell.self, forCellWithReuseIdentifier: PopularNFTCollectionViewCell.identifier)
+        view.showsHorizontalScrollIndicator = false
         return view
     }()
     

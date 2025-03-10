@@ -111,28 +111,24 @@ class CoinInformationViewController: BaseViewController {
     
     override func configureBind() {
         let input = CoinInformationViewModel.Input()
-        let ouput = viewModel.transform(input: input)
+        let output = viewModel.transform(input: input)
         
-        ouput.dateString
+        output.dateString
             .subscribe(with: self) { owner, value in
                 owner.popularSearchView.updateDateString(date: value)
             }
             .disposed(by: disposeBag)
         
-        ouput.trendingList
+        output.trendingList
             .subscribe(with: self, onNext: { owner, value in
                 owner.popularSearchView.updateSnapshot(trendingList: value)
             })
             .disposed(by: disposeBag)
         
-        Observable.just(["1", "2", "3", "4", "5", "6", "7"])
+        output.nftList
             .bind(to: popularNFTView.nftCollectionView.rx.items(cellIdentifier: PopularNFTCollectionViewCell.identifier, cellType: PopularNFTCollectionViewCell.self)){
                 (row, element, cell) in
-                cell.nftImageView.image = UIImage(systemName: "person")
-                cell.nftNameLabel.text = "Meebits"
-                cell.nftInfoLabel.text = "0.66 ETH"
-                cell.nftArrowImageView.image = UIImage(systemName: "chevron.right")
-                cell.nftChangeRateLabel.text = "12.34%"
+                cell.insertData(data: element)
             }
             .disposed(by: disposeBag)
     }

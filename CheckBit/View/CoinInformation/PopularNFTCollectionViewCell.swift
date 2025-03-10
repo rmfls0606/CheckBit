@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 class PopularNFTCollectionViewCell: BaseCollectionViewCell {
     
@@ -16,6 +17,8 @@ class PopularNFTCollectionViewCell: BaseCollectionViewCell {
         let view = UIImageView()
         view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
+        view.layer.cornerRadius = 18
+        view.layer.masksToBounds = true
         return view
     }()
     
@@ -23,6 +26,7 @@ class PopularNFTCollectionViewCell: BaseCollectionViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 9, weight: .bold)
         label.textColor = UIColor(resource: .main)
+        label.textAlignment = .center
         return label
     }()
     
@@ -30,6 +34,7 @@ class PopularNFTCollectionViewCell: BaseCollectionViewCell {
        let label = UILabel()
         label.font = .systemFont(ofSize: 9)
         label.textColor = UIColor(resource: .secondary)
+        label.textAlignment = .center
         return label
     }()
     
@@ -38,6 +43,7 @@ class PopularNFTCollectionViewCell: BaseCollectionViewCell {
         view.axis = .horizontal
         view.spacing = 1
         view.distribution = .fill
+        view.alignment = .center
         return view
     }()
     
@@ -52,6 +58,12 @@ class PopularNFTCollectionViewCell: BaseCollectionViewCell {
         label.font = .systemFont(ofSize: 9, weight: .bold)
         return label
     }()
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        self.nftImageView.image = nil
+    }
     
     override func configureHierarchy() {
         self.contentView.addSubview(nftImageView)
@@ -68,21 +80,53 @@ class PopularNFTCollectionViewCell: BaseCollectionViewCell {
         
         self.nftNameLabel.snp.makeConstraints { make in
             make.top.equalTo(nftImageView.snp.bottom).offset(4)
-            make.centerX.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
         }
         
         self.nftInfoLabel.snp.makeConstraints { make in
             make.top.equalTo(nftNameLabel.snp.bottom).offset(2)
-            make.centerX.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
         }
         
         self.nftChangeStackView.snp.makeConstraints { make in
             make.top.equalTo(nftInfoLabel.snp.bottom).offset(2)
-            make.centerX.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
+        }
+        
+        self.nftArrowImageView.snp.makeConstraints { make in
+            make.size.equalTo(10)
         }
     }
     
     override func configureView() {
         
+    }
+    
+    func insertData(data: TrendingNFTItem){
+        if let url = URL(string: data.thumb){
+            self.nftImageView.kf.setImage(with: url)
+        }else{
+            self.nftImageView.image = UIImage(systemName: "person")
+        }
+        self.nftNameLabel.text = data.name
+        self.nftInfoLabel.text = data.data.floor_price
+        
+        let newColor: UIColor
+        var arrowImage: String = ""
+        
+        if data.floor_price_24h_percentage_change > 0{
+            newColor = CoinChangeColor.rise.textColor
+            arrowImage = ArrowImage.up.rawValue
+        }else if data.floor_price_24h_percentage_change < 0{
+            newColor = CoinChangeColor.fall.textColor
+            arrowImage = ArrowImage.down.rawValue
+        }else{
+            newColor = CoinChangeColor.even.textColor
+        }
+        
+        self.nftArrowImageView.image = UIImage(systemName: arrowImage)
+        self.nftArrowImageView.tintColor = newColor
+        self.nftChangeRateLabel.text = data.floor_price_24h_percentage_change.formatted2fValue() + "%"
+        self.nftChangeRateLabel.textColor = newColor
     }
 }

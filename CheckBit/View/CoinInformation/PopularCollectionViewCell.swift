@@ -140,7 +140,7 @@ class PopularCollectionViewCell: BaseCollectionViewCell {
         self.popularChangeIconImageView.image = UIImage(systemName: "arrowtriangle.up.fill")
         
         if let changeRate = data.item.data.price_change_percentage_24h["krw"]{
-            self.popularChangeLabel.text = changeRate.formatted2fValue()
+            self.popularChangeLabel.text = changeRate.formatted2fValue() + "%"
             
             let newColor: UIColor
             var arrowImageName: String = ""
