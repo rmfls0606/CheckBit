@@ -8,8 +8,9 @@
 import Foundation
 
 //MARK: - 트렌딩 화면
-struct TrendingCoins: Decodable {
+struct TrendingCoinNFTItems: Decodable {
     let coins: [TrendingCoinItem]
+    let nfts: [TrendingNFTItem]
 }
 
 struct TrendingCoinItem: Decodable, Hashable {
@@ -47,4 +48,26 @@ struct TrendingCoinData: Decodable, Hashable {
 struct TrendingContentInfo: Decodable, Hashable  {
     let title: String?
     let description: String?
+}
+
+//MARK: - NFT
+struct TrendingNFTItem: Decodable {
+    let id: String
+    let name: String
+    let symbol: String
+    let thumb: String
+    let nft_contract_id: Int
+    let native_currency_symbol: String
+    let floor_price_in_native_currency: Double
+    let floor_price_24h_percentage_change: Double
+    let data: TrendingNFTData
+}
+
+struct TrendingNFTData: Decodable {
+    let floor_price: String
+    let floor_price_in_usd_24h_percentage_change: String
+    let h24_volume: String
+    let h24_average_sale_price: String
+    let sparkline: String
+    let content: String?
 }
