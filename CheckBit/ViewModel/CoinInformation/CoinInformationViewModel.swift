@@ -19,11 +19,13 @@ final class CoinInformationViewModel {
     
     struct Output{
         let trendingList: PublishRelay<[TrendingCoinItem]>
+        let nftList: PublishRelay<[TrendingNFTItem]>
         let dateString: BehaviorRelay<String>
     }
     
     func transform(input: Input) -> Output{
         let trendingList = PublishRelay<[TrendingCoinItem]>()
+        let nftList = PublishRelay<[TrendingNFTItem]>()
         let dateString = BehaviorRelay(value: "")
         
         let timer = Observable<Int>.interval(.seconds(5), scheduler: MainScheduler.instance)
@@ -33,17 +35,18 @@ final class CoinInformationViewModel {
         timer
             .flatMap{ _ in
                 NetworkManager.shared.callBackUpbitWithSingle(api: CoingeckoRequest.trending)
-                    .flatMap { (result: Result<TrendingCoins, Error>) -> Single<[TrendingCoinItem]> in
+                    .flatMap { (result: Result<TrendingCoinNFTItems, Error>) -> Single<([TrendingCoinItem], [TrendingNFTItem])> in
                         switch result {
                         case .success(let data):
-                            return Single.just(data.coins)
+                            return Single.just((data.coins, data.nfts))
                         case .failure(_):
-                            return Single.just([])
+                            return Single.just(([],[]))
                         }
                     }
             }
             .subscribe { value in
-                trendingList.accept(value.element!)
+                trendingList.accept(value.element!.0)
+                nftList.accept(value.element!.1)
             }
             .disposed(by: disposeBag)
         
@@ -58,7 +61,7 @@ final class CoinInformationViewModel {
             })
             .disposed(by: disposeBag)
         
-        return Output(trendingList: trendingList, dateString: dateString)
+        return Output(trendingList: trendingList, nftList: nftList, dateString: dateString)
     }
 }
 
