@@ -1,0 +1,56 @@
+//
+//  SearchResultView.swift
+//  CheckBit
+//
+//  Created by 이상민 on 3/11/25.
+//
+
+import UIKit
+import SnapKit
+
+class SearchResultView: BaseView {
+    
+    private lazy var buttonStackView: UIStackView = {
+        let title = ["코인", "NFT", "거래소"]
+        let buttons = title.map{ title -> UIButton in
+            let button = UIButton()
+            button.setTitle(title, for: .normal)
+            button.setTitleColor(UIColor(resource: .secondary), for: .normal)
+            button.titleLabel?.font = .systemFont(ofSize: 12)
+            return button
+        }
+        let view = UIStackView(arrangedSubviews: buttons)
+        view.axis = .horizontal
+        view.distribution = .fillEqually
+        view.alignment = .fill
+        return view
+    }()
+    
+    private let bottomLineView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(resource: .secondary)
+        return view
+    }()
+
+    override func configureHierarchy() {
+        self.addSubview(buttonStackView)
+        self.addSubview(bottomLineView)
+    }
+    
+    override func configureLayout() {
+        self.buttonStackView.snp.makeConstraints { make in
+            make.top.leading.trailing.equalToSuperview()
+            make.height.equalTo(40)
+        }
+        
+        self.bottomLineView.snp.makeConstraints { make in
+            make.top.equalTo(buttonStackView.snp.bottom)
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(1)
+        }
+    }
+    
+    override func configureView() {
+        
+    }
+}

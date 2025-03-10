@@ -8,17 +8,21 @@
 import UIKit
 
 class SearchResultViewController: BaseViewController {
+    
+    private let searcnResultView = SearchResultView()
 
     override func configureHierarchy() {
-        
+        self.view.addSubview(searcnResultView)
     }
     
     override func configureLayout() {
-        
+        self.searcnResultView.snp.makeConstraints { make in
+            make.edges.equalTo(self.view.safeAreaLayoutGuide)
+        }
     }
     
     override func configureView() {
-        self.view.backgroundColor = .red
+        self.view.backgroundColor = .white
     }
     
     override func configureBind() {
