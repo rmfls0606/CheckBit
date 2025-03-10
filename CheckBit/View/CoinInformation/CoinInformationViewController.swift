@@ -9,7 +9,15 @@ import UIKit
 import SnapKit
 
 class CoinInformationViewController: BaseViewController {
-    
+    //NavigationTitle
+    private let navigationTitleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "가상자산 / 심볼 검색"
+        label.textColor = UIColor(resource: .main)
+        label.font = .boldSystemFont(ofSize: 20)
+        label.textAlignment = .left
+        return label
+    }()
     
     private lazy var textFieldBox: UIView = {
         let view = UIView()
@@ -37,16 +45,9 @@ class CoinInformationViewController: BaseViewController {
         
         return textField
     }()
+
+    private let popularSearchView = PopularSearchesView()
     
-    //NavigationTitle
-    private let navigationTitleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "가상자산 / 심볼 검색"
-        label.textColor = UIColor(resource: .main)
-        label.font = .boldSystemFont(ofSize: 20)
-        label.textAlignment = .left
-        return label
-    }()
     
     override func viewDidLayoutSubviews() {
         textFieldBox.layer.cornerRadius = textFieldBox.bounds.height / 2
@@ -55,6 +56,7 @@ class CoinInformationViewController: BaseViewController {
     
     override func configureHierarchy() {
         self.view.addSubview(textFieldBox)
+        self.view.addSubview(popularSearchView)
     }
     
     override func configureLayout() {
@@ -63,6 +65,12 @@ class CoinInformationViewController: BaseViewController {
         }
         self.textField.snp.makeConstraints { make in
             make.edges.equalToSuperview().inset(10)
+        }
+        
+        self.popularSearchView.snp.makeConstraints { make in
+            make.top.equalTo(textFieldBox.snp.bottom).offset(10)
+            make.leading.trailing.equalTo(self.view.safeAreaLayoutGuide)
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
     }
     
