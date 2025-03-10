@@ -31,7 +31,7 @@ final class CoinInformationViewModel {
         let dateString = BehaviorRelay(value: "")
         let searchResult = PublishRelay<String>()
         
-        let timer = Observable<Int>.interval(.seconds(5), scheduler: MainScheduler.instance)
+        let timer = Observable<Int>.interval(.seconds(600), scheduler: MainScheduler.instance)
             .startWith(0)
             .share(replay: 1)
         
