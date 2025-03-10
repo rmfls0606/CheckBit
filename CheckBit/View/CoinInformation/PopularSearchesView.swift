@@ -47,7 +47,7 @@ class PopularSearchesView: BaseView {
         }
         
         self.popularCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(popularTitleLable.snp.bottom).offset(16)
+            make.top.equalTo(popularTitleLable.snp.bottom).offset(10)
             make.leading.trailing.bottom.equalToSuperview().inset(16)
         }
     }
