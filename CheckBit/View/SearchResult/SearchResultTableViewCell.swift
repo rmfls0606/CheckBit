@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 class SearchResultTableViewCell: BaseTableViewCell{
     
@@ -59,6 +60,7 @@ class SearchResultTableViewCell: BaseTableViewCell{
         let view = UIStackView(arrangedSubviews: [resultNameView, resultSymbolLabel])
         view.axis = .vertical
         view.distribution = .fillEqually
+        view.alignment = .fill
         view.spacing = 2
         return view
     }()
@@ -68,6 +70,7 @@ class SearchResultTableViewCell: BaseTableViewCell{
         button.setImage(UIImage(systemName: "star"), for: .normal)
         button.tintColor = UIColor(resource: .main)
         return button
+        
     }()
     
     override func layoutSubviews() {
@@ -99,8 +102,6 @@ class SearchResultTableViewCell: BaseTableViewCell{
             make.leading.equalToSuperview()
         }
         
-        resultNameLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-        
         self.resultRankLabelView.snp.makeConstraints { make in
             make.leading.equalTo(resultNameLabel.snp.trailing).offset(4)
             make.trailing.lessThanOrEqualTo(resultInfoStackView.snp.trailing)
@@ -110,8 +111,6 @@ class SearchResultTableViewCell: BaseTableViewCell{
             make.horizontalEdges.equalToSuperview().inset(4)
             make.verticalEdges.equalToSuperview().inset(2)
         }
-        
-        resultRankLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
         
         self.resultSymbolLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview()
@@ -124,5 +123,17 @@ class SearchResultTableViewCell: BaseTableViewCell{
     
     override func configureView() {
         self.selectionStyle = .none
+    }
+    
+    func insertData(data: SearchCoin){
+        if let url = URL(string: data.thumb){
+            self.resultImageView.kf.setImage(with: url)
+        }else{
+            self.resultImageView.image = UIImage(systemName: "person.circle")
+        }
+        
+        self.resultNameLabel.text = data.name
+        self.resultRankLabel.text = "#\(data.market_cap_rank)"
+        self.resultSymbolLabel.text = data.api_symbol
     }
 }

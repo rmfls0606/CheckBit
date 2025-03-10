@@ -49,7 +49,7 @@ class SearchResultViewController: BaseViewController {
         output.searchResult
             .bind(to: searcnResultView.searchResultTableView.rx.items(cellIdentifier: SearchResultTableViewCell.identifier, cellType: SearchResultTableViewCell.self)){
                 (row, element, cell) in
-                print(element)
+                cell.insertData(data: element)
             }
             .disposed(by: disposeBag)
     }

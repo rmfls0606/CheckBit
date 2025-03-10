@@ -47,10 +47,8 @@ class SearchResultViewModel {
             .flatMap { currentQuery -> Single<[SearchCoin]> in
                 return NetworkManager.shared.callBackUpbitWithSingle(api: CoingeckoRequest.search(query: currentQuery))
                     .flatMap { (result: Result<SearchData, Error>) -> Single<[SearchCoin]> in
-//                        print(currentQuery)
                         switch result {
                         case .success(let data):
-                            print(data)
                             return Single.just(data.coins)
                         case .failure(let error):
                             print("검색 API 에러: \(error.localizedDescription)")
@@ -62,8 +60,6 @@ class SearchResultViewModel {
                 searchResult.accept(value)
             })
             .disposed(by: disposeBag)
-        
-//        print("검색어",searchQuery.value)
         
         return Output(searchResult: searchResult)
     }

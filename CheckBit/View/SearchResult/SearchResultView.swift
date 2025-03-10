@@ -37,8 +37,9 @@ class SearchResultView: BaseView {
     private(set) var searchResultTableView: UITableView = {
         let view = UITableView()
         view.register(SearchResultTableViewCell.self, forCellReuseIdentifier: SearchResultTableViewCell.identifier)
-        view.rowHeight = 40
+        view.rowHeight = 60
         view.separatorStyle = .none
+        view.showsVerticalScrollIndicator = false
         return view
     }()
 
