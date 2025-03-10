@@ -61,7 +61,7 @@ class SearchResultView: BaseView {
         }
         
         self.searchResultTableView.snp.makeConstraints { make in
-            make.top.equalTo(buttonStackView.snp.bottom)
+            make.top.equalTo(bottomLineView.snp.bottom)
             make.leading.trailing.bottom.equalToSuperview()
         }
     }
