@@ -6,14 +6,15 @@
 //
 
 import Foundation
+import RxSwift
+import RxCocoa
 
 class SearchResultViewModel {
     struct Input{
-    
+        let searchText: ControlProperty<String>
     }
     
     struct Output{
-       
     }
     
     func transform(input: Input) -> Output{

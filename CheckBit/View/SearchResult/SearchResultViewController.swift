@@ -11,7 +11,7 @@ import RxCocoa
 
 class SearchResultViewController: BaseViewController {
     
-    private let searchBar: UISearchBar = {
+    private(set) var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.searchTextField.backgroundColor = .white
         searchBar.setImage(UIImage(), for: UISearchBar.Icon.search, state: .normal)
@@ -21,6 +21,7 @@ class SearchResultViewController: BaseViewController {
     
     private let searcnResultView = SearchResultView()
     private let disposeBag = DisposeBag()
+    private let viewModel = SearchResultViewModel()
 
     override func configureHierarchy() {
         self.view.addSubview(searcnResultView)
@@ -42,6 +43,9 @@ class SearchResultViewController: BaseViewController {
     }
     
     override func configureBind() {
+        let input = SearchResultViewModel.Input(searchText: searchBar.rx.text.orEmpty)
+        let output = viewModel.transform(input: input)
+        
         Observable.just([1,2,3,4,5,6,7,8,9])
             .bind(to: searcnResultView.searchResultTableView.rx.items(cellIdentifier: SearchResultTableViewCell.identifier, cellType: SearchResultTableViewCell.self)){
                 (row, element, cell) in

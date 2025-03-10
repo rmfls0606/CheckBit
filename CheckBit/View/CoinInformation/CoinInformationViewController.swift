@@ -127,6 +127,7 @@ class CoinInformationViewController: BaseViewController {
                 
                 if !text.isEmpty {
                     let nextVC = SearchResultViewController()
+                    nextVC.searchBar.text = text
                     owner.navigationController?.pushViewController(nextVC, animated: true)
                 }
             }
