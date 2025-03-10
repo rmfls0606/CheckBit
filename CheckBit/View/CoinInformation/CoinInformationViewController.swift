@@ -96,7 +96,7 @@ class CoinInformationViewController: BaseViewController {
     }
     
     override func configureBind() {
-        let input = CoinInformationViewModel.Input()
+        let input = CoinInformationViewModel.Input(textFieldButtonTap: textField.rx.controlEvent(.editingDidEndOnExit), textFieldText: textField.rx.text.orEmpty)
         let output = viewModel.transform(input: input)
         
         output.dateString
@@ -117,6 +117,17 @@ class CoinInformationViewController: BaseViewController {
             .bind(to: popularNFTView.nftCollectionView.rx.items(cellIdentifier: PopularNFTCollectionViewCell.identifier, cellType: PopularNFTCollectionViewCell.self)){
                 (row, element, cell) in
                 cell.insertData(data: element)
+            }
+            .disposed(by: disposeBag)
+        
+        output.searchResut
+            .subscribe(with: self) { owner, text in
+                owner.view.endEditing(true)
+                
+                if !text.isEmpty {
+                    let nextVC = SearchResultViewController()
+                    owner.navigationController?.pushViewController(nextVC, animated: true)
+                }
             }
             .disposed(by: disposeBag)
     }

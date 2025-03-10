@@ -14,19 +14,22 @@ final class CoinInformationViewModel {
     private let disposeBag = DisposeBag()
 
     struct Input{
-    
+        let textFieldButtonTap: ControlEvent<Void> //엔터키
+        let textFieldText: ControlProperty<String> //입력값
     }
     
     struct Output{
         let trendingList: PublishRelay<[TrendingCoinItem]>
         let nftList: PublishRelay<[TrendingNFTItem]>
         let dateString: BehaviorRelay<String>
+        let searchResut: PublishRelay<String>
     }
     
     func transform(input: Input) -> Output{
         let trendingList = PublishRelay<[TrendingCoinItem]>()
         let nftList = PublishRelay<[TrendingNFTItem]>()
         let dateString = BehaviorRelay(value: "")
+        let searchResult = PublishRelay<String>()
         
         let timer = Observable<Int>.interval(.seconds(5), scheduler: MainScheduler.instance)
             .startWith(0)
@@ -61,7 +64,17 @@ final class CoinInformationViewModel {
             })
             .disposed(by: disposeBag)
         
-        return Output(trendingList: trendingList, nftList: nftList, dateString: dateString)
+        input.textFieldButtonTap
+            .withLatestFrom(input.textFieldText){ _, text in
+                text.trimmingCharacters(in: .whitespacesAndNewlines)
+            }
+            .filter{ !$0.isEmpty}
+            .subscribe(onNext: { text in
+                searchResult.accept(text)
+            })
+            .disposed(by: disposeBag)
+        
+        return Output(trendingList: trendingList, nftList: nftList, dateString: dateString, searchResut: searchResult)
     }
 }
 
