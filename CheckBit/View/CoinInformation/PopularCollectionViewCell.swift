@@ -98,7 +98,7 @@ class PopularCollectionViewCell: BaseCollectionViewCell {
         
         popularRankLabel.snp.makeConstraints { make in
             make.leading.centerY.equalToSuperview()
-            make.width.equalTo(16)
+            make.width.equalTo(20)
         }
         
         popularCoinImageView.snp.makeConstraints { make in

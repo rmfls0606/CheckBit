@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 class PopularNFTView: BaseView {
-
+    
     private let popularTitleLable: UILabel = {
         let label = UILabel()
         label.text = "인기 NFT"
@@ -32,17 +32,14 @@ class PopularNFTView: BaseView {
     
     override func configureLayout() {
         self.popularTitleLable.snp.makeConstraints { make in
-            self.popularTitleLable.snp.makeConstraints { make in
-                make.leading.top.equalToSuperview().inset(16)
-            }
+            make.top.equalToSuperview()
+            make.leading.equalToSuperview().inset(16)
         }
         
         self.nftCollectionView.snp.makeConstraints { make in
-            self.nftCollectionView.snp.makeConstraints { make in
-                make.top.equalTo(popularTitleLable.snp.bottom).offset(16)
-                make.leading.trailing.equalToSuperview()
-                make.bottom.equalToSuperview()
-            }
+            make.top.equalTo(popularTitleLable.snp.bottom).offset(16)
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalToSuperview()
         }
     }
     

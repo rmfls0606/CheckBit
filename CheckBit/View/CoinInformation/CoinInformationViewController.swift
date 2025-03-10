@@ -55,8 +55,7 @@ class CoinInformationViewController: BaseViewController {
     private lazy var contentStackView: UIStackView = {
         let stack = UIStackView(arrangedSubviews: [popularSearchView, popularNFTView])
         stack.axis = .vertical
-        //        stack.spacing = 10
-        stack.distribution = .fillEqually
+        stack.distribution = .fillProportionally
         stack.alignment = .fill
         return stack
     }()
@@ -72,8 +71,6 @@ class CoinInformationViewController: BaseViewController {
     
     override func configureHierarchy() {
         self.view.addSubview(textFieldBox)
-        //        self.view.addSubview(popularSearchView)
-        //        self.view.addSubview(popularNFTView)
         self.view.addSubview(contentStackView)
     }
     
@@ -89,17 +86,6 @@ class CoinInformationViewController: BaseViewController {
             make.top.equalTo(textFieldBox.snp.bottom).offset(10)
             make.leading.trailing.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
-        
-        //        self.popularSearchView.snp.makeConstraints { make in
-        //            make.top.equalTo(textFieldBox.snp.bottom).offset(10)
-        //            make.leading.trailing.equalTo(self.view.safeAreaLayoutGuide)
-        //        }
-        //
-        //        self.popularNFTView.snp.makeConstraints { make in
-        //            make.leading.trailing.equalTo(self.view.safeAreaLayoutGuide)
-        //            make.bottom.equalTo(self.view.safeAreaLayoutGuide)
-        //            make.height.equalTo(300)
-        //        }
     }
     
     override func configureView() {
