@@ -93,6 +93,7 @@ class CoinInformationViewController: BaseViewController {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem( customView: navigationTitleLabel)
         
         self.popularNFTView.configureDelegate(delegate: self)
+        self.navigationItem.title = ""
     }
     
     override func configureBind() {

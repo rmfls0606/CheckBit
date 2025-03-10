@@ -9,6 +9,14 @@ import UIKit
 
 class SearchResultViewController: BaseViewController {
     
+    private let searchBar: UISearchBar = {
+        let searchBar = UISearchBar()
+        searchBar.searchTextField.backgroundColor = .white
+        searchBar.setImage(UIImage(), for: UISearchBar.Icon.search, state: .normal)
+        searchBar.searchTextField.textColor = UIColor(resource: .secondary)
+        return searchBar
+    }()
+    
     private let searcnResultView = SearchResultView()
 
     override func configureHierarchy() {
@@ -23,6 +31,7 @@ class SearchResultViewController: BaseViewController {
     
     override func configureView() {
         self.view.backgroundColor = .white
+        self.navigationItem.titleView = self.searchBar
     }
     
     override func configureBind() {
