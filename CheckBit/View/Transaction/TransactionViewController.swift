@@ -38,6 +38,20 @@ class TransactionViewController: BaseViewController {
         return view
     }()
     
+    private let loadingView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        view.isUserInteractionEnabled = true
+        return view
+    }()
+    
+    private let loadingIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.hidesWhenStopped = true
+        indicator.color = UIColor(resource: .secondary)
+        return indicator
+    }()
+    
     private let viewModel = TransactionViewModel()
     
     private let disposeBag = DisposeBag()
@@ -45,6 +59,8 @@ class TransactionViewController: BaseViewController {
     override func configureHierarchy() {
         self.view.addSubview(headerView)
         self.view.addSubview(coinTableView)
+        self.view.addSubview(loadingView)
+        loadingView.addSubview(loadingIndicator)
     }
     
     override func configureLayout() {
@@ -58,6 +74,14 @@ class TransactionViewController: BaseViewController {
             make.bottom.equalTo(self.view.safeAreaLayoutGuide)
             make.horizontalEdges.equalTo(self.view.safeAreaLayoutGuide).inset(16)
         }
+        
+        self.loadingView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        self.loadingIndicator.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
     }
     
     override func configureView() {
@@ -65,6 +89,10 @@ class TransactionViewController: BaseViewController {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem( customView: navigationTitleLabel)
         
         self.headerView.backgroundColor = UIColor(resource: .box)
+        
+        loadingView.isHidden = false
+        loadingIndicator.startAnimating()
+        self.tabBarController?.tabBar.isUserInteractionEnabled = false
     }
     
     override func configureBind() {
@@ -83,6 +111,10 @@ class TransactionViewController: BaseViewController {
             ){ (row, element, cell) in
                 let data = element
                 cell.insertData(data: data)
+                
+                self.loadingIndicator.stopAnimating()
+                self.loadingView.isHidden = true
+                self.tabBarController?.tabBar.isUserInteractionEnabled = true
             }
             .disposed(by: disposeBag)
         

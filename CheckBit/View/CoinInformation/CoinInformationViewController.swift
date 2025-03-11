@@ -63,6 +63,20 @@ class CoinInformationViewController: BaseViewController {
     private let popularSearchView = PopularSearchesView()
     private let popularNFTView = PopularNFTView()
     
+    private let loadingView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        view.isUserInteractionEnabled = true
+        return view
+    }()
+    
+    private let loadingIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.hidesWhenStopped = true
+        indicator.color = UIColor(resource: .secondary)
+        return indicator
+    }()
+    
     
     override func viewDidLayoutSubviews() {
         textFieldBox.layer.cornerRadius = textFieldBox.bounds.height / 2
@@ -72,6 +86,8 @@ class CoinInformationViewController: BaseViewController {
     override func configureHierarchy() {
         self.view.addSubview(textFieldBox)
         self.view.addSubview(contentStackView)
+        self.view.addSubview(loadingView)
+        loadingView.addSubview(loadingIndicator)
     }
     
     override func configureLayout() {
@@ -86,6 +102,14 @@ class CoinInformationViewController: BaseViewController {
             make.top.equalTo(textFieldBox.snp.bottom).offset(10)
             make.leading.trailing.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
+        
+        self.loadingView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        self.loadingIndicator.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
     }
     
     override func configureView() {
@@ -94,6 +118,10 @@ class CoinInformationViewController: BaseViewController {
         
         self.popularNFTView.configureDelegate(delegate: self)
         self.navigationItem.title = ""
+        
+        loadingView.isHidden = false
+        loadingIndicator.startAnimating()
+        self.tabBarController?.tabBar.isUserInteractionEnabled = true
     }
     
     override func configureBind() {
@@ -150,6 +178,16 @@ class CoinInformationViewController: BaseViewController {
                 }
             }
             .disposed(by: disposeBag)
+        
+        Observable.combineLatest(output.trendingList, output.nftList)
+            .observe(on: MainScheduler.instance)
+            .subscribe(with: self) { owner, data in
+                owner.loadingIndicator.stopAnimating()
+                owner.loadingView.isHidden = true
+                owner.tabBarController?.tabBar.isUserInteractionEnabled = false
+            }
+            .disposed(by: disposeBag)
+
     }
 }
 

@@ -56,12 +56,26 @@ class CoinDetailViewController: BaseViewController {
         return view
     }()
     
+    private let loadingView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        view.isUserInteractionEnabled = true
+        return view
+    }()
     
+    private let loadingIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.hidesWhenStopped = true
+        indicator.color = UIColor(resource: .secondary)
+        return indicator
+    }()
     
     override func configureHierarchy() {
         self.view.addSubview(scrollView)
         self.scrollView.addSubview(stackView)
         self.view.addSubview(navTitleView)
+        self.view.addSubview(loadingView)
+        loadingView.addSubview(loadingIndicator)
     }
     
     override func configureLayout() {
@@ -73,10 +87,21 @@ class CoinDetailViewController: BaseViewController {
             make.top.leading.trailing.bottom.equalToSuperview()
             make.width.equalTo(scrollView)
         }
+        
+        self.loadingView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        self.loadingIndicator.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
     }
     
     override func configureView() {
         self.view.backgroundColor = .white
+        loadingView.isHidden = false
+        loadingIndicator.startAnimating()
+        self.tabBarController?.tabBar.isUserInteractionEnabled = true
         
         guard let coin = self.coin else { return }
         if let url = URL(string: coin.thumb){
@@ -109,6 +134,7 @@ class CoinDetailViewController: BaseViewController {
         rightButtoon.tintColor = UIColor(resource: .main)
         
         self.navigationItem.rightBarButtonItem = rightButtoon
+        
     }
     
     override func configureBind() {
@@ -128,6 +154,10 @@ class CoinDetailViewController: BaseViewController {
                 owner.coinDetailChartView.updateChartView(values: data.sparkline_in_7d!.price)
                 owner.coinDetailInfoView.updateData(highPrice_24h: data.high_24h ?? 0, lowPrice_24h: data.low_24h ?? 0, highPrice_all: data.ath, lowPrice_all: data.atl, hightDate: data.ath_date, lowDate: data.atl_date)
                 owner.coinDatilInvestmentView.updateData(marketValue: data.market_cap, fdv: data.fully_diluted_valuation ?? 0, totalPrice: data.total_volume)
+                
+                owner.loadingIndicator.stopAnimating()
+                owner.loadingView.isHidden = true
+                owner.tabBarController?.tabBar.isUserInteractionEnabled = false
             }
             .disposed(by: disposeBag)
         

@@ -23,6 +23,20 @@ class SearchResultViewController: BaseViewController {
     private let disposeBag = DisposeBag()
     private let viewModel = SearchResultViewModel()
 
+    private let loadingView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        view.isUserInteractionEnabled = true
+        return view
+    }()
+    
+    private let loadingIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.hidesWhenStopped = true
+        indicator.color = UIColor(resource: .secondary)
+        return indicator
+    }()
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -31,11 +45,21 @@ class SearchResultViewController: BaseViewController {
     
     override func configureHierarchy() {
         self.view.addSubview(searcnResultView)
+        self.view.addSubview(loadingView)
+        loadingView.addSubview(loadingIndicator)
     }
     
     override func configureLayout() {
         self.searcnResultView.snp.makeConstraints { make in
             make.edges.equalTo(self.view.safeAreaLayoutGuide)
+        }
+        
+        self.loadingView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        self.loadingIndicator.snp.makeConstraints { make in
+            make.center.equalToSuperview()
         }
     }
     
@@ -46,6 +70,10 @@ class SearchResultViewController: BaseViewController {
         let leftItem = UIBarButtonItem(image: UIImage(systemName: "arrow.left"), style: .done, target: self, action: nil)
         leftItem.tintColor = UIColor(resource: .main)
         self.navigationItem.leftBarButtonItem = leftItem
+        
+        loadingView.isHidden = false
+        loadingIndicator.startAnimating()
+        self.tabBarController?.tabBar.isUserInteractionEnabled = true
     }
     
     override func configureBind() {
@@ -68,6 +96,10 @@ class SearchResultViewController: BaseViewController {
                 cell.likeButtonTap
                     .bind(to: likeButtonTap)
                     .disposed(by: cell.disposeBag)
+                
+                self.loadingIndicator.stopAnimating()
+                self.loadingView.isHidden = true
+                self.tabBarController?.tabBar.isUserInteractionEnabled = false
             }
             .disposed(by: disposeBag)
         
