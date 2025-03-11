@@ -1,5 +1,5 @@
 //
-//  CoinDetailInfoView.swift
+//  CoinDetailInvestmentView.swift
 //  CheckBit
 //
 //  Created by 이상민 on 3/11/25.
@@ -8,8 +8,8 @@
 import UIKit
 import SnapKit
 
-class CoinDetailInfoView: BaseView {
-    
+class CoinDetailInvestmentView: BaseView {
+
     private lazy var mainStackView: UIStackView = {
         let view = UIStackView(arrangedSubviews: [headerStakcView, groupBoxView])
         view.axis = .vertical
@@ -18,7 +18,6 @@ class CoinDetailInfoView: BaseView {
         view.spacing = 16
         return view
     }()
-    
     
     private lazy var headerStakcView: UIStackView = {
         let view = UIStackView(arrangedSubviews: [titleLabel, moreButton])
@@ -31,7 +30,7 @@ class CoinDetailInfoView: BaseView {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14, weight: .bold)
         label.textColor = .label
-        label.text = "종목정보"
+        label.text = "투자지표"
         return label
     }()
     
@@ -55,36 +54,17 @@ class CoinDetailInfoView: BaseView {
     
     private lazy var groupBoxView: UIView = {
         let view = UIView()
-        view.addSubview(price_24h_stack)
-        view.addSubview(price_all_stack)
+        view.addSubview(marketValue)
+        view.addSubview(fdv)
+        view.addSubview(totalPrice)
         view.backgroundColor = UIColor(resource: .box)
         view.layer.cornerRadius = 12
         return view
     }()
     
-    private lazy var price_24h_stack: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [highPrice_24h, fallPrice_24h])
-        view.axis = .horizontal
-        view.distribution = .fillEqually
-        view.alignment = .fill
-        view.spacing = 8
-        return view
-    }()
-
-    private lazy var price_all_stack: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [highPrice_all, fallPrice_all])
-        view.axis = .horizontal
-        view.distribution = .fillEqually
-        view.alignment = .fill
-        view.spacing = 8
-        return view
-    }()
-    
-    private lazy var highPrice_24h = titleAndContentStack(title: "24시간 고가", content: "₩142,060,908")
-    private lazy var fallPrice_24h = titleAndContentStack(title: "24시간 저가", content: "₩139,531,878")
-    private lazy var highPrice_all = titleAndContentStack(title: "역대 최고가", content: "₩157,802,908", date: "25년 1월 20일")
-    private lazy var fallPrice_all = titleAndContentStack(title: "역대 최저가", content: "₩75,594", date: "13년 7월 5일")
-    
+    private lazy var marketValue = titleAndContentStack(title: "시가총액", content: "₩2,782,213,792,217")
+    private lazy var fdv = titleAndContentStack(title: "완전 희석 가치(FDV)", content: "₩2,728,407,213,792,217")
+    private lazy var totalPrice = titleAndContentStack(title: "총 거래량", content: "₩157,802,908")
     
     override func configureHierarchy() {
         self.addSubview(mainStackView)
@@ -93,25 +73,33 @@ class CoinDetailInfoView: BaseView {
     override func configureLayout() {
         self.mainStackView.snp.makeConstraints { make in
             make.top.equalToSuperview()
-            make.leading.trailing.equalToSuperview().inset(16)
-            make.bottom.equalToSuperview()
+            make.leading.trailing.bottom.equalToSuperview().inset(16)
         }
         
         self.groupBoxView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
         }
         
-        self.price_24h_stack.snp.makeConstraints { make in
+        self.marketValue.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview().inset(16)
         }
         
-        self.price_all_stack.snp.makeConstraints { make in
-            make.top.equalTo(price_24h_stack.snp.bottom).offset(32)
+        self.fdv.snp.makeConstraints { make in
+            make.top.equalTo(marketValue.snp.bottom).offset(32)
+            make.leading.trailing.equalToSuperview().inset(16)
+        }
+        
+        self.totalPrice.snp.makeConstraints { make in
+            make.top.equalTo(fdv.snp.bottom).offset(32)
             make.leading.trailing.bottom.equalToSuperview().inset(16)
         }
     }
     
-    func titleAndContentStack(title: String, content: String, date: String? = nil) -> UIStackView{
+    override func configureView() {
+        
+    }
+
+    func titleAndContentStack(title: String, content: String) -> UIStackView{
         let view = UIStackView()
         view.axis = .vertical
         view.distribution = .fill
@@ -136,19 +124,7 @@ class CoinDetailInfoView: BaseView {
         
         view.addArrangedSubview(titleLabel)
         view.addArrangedSubview(contentLabel)
-        
-        if let date = date {
-            let dateLabel: UILabel = {
-                let label = UILabel()
-                label.font = .systemFont(ofSize: 9)
-                label.textColor = UIColor(resource: .secondary)
-                label.text = date
-                return label
-            }()
-            view.addArrangedSubview(dateLabel)
-        }
-        
-        
+
         return view
     }
 }

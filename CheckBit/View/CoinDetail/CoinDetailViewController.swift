@@ -39,6 +39,8 @@ class CoinDetailViewController: BaseViewController {
     
     private let coinDetailChartView = CoinDetailChartView()
     private let coinDetailInfoView = CoinDetailInfoView()
+    private let coinDatilInvestmentView = CoinDetailInvestmentView()
+    
     
     private let scrollView: UIScrollView = {
         let view = UIScrollView()
@@ -46,7 +48,7 @@ class CoinDetailViewController: BaseViewController {
     }()
     
     private lazy var stackView: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [coinDetailChartView, coinDetailInfoView])
+        let view = UIStackView(arrangedSubviews: [coinDetailChartView, coinDetailInfoView, coinDatilInvestmentView])
         view.axis = .vertical
         view.spacing = 20
         view.distribution = .fill
@@ -68,7 +70,7 @@ class CoinDetailViewController: BaseViewController {
         }
         
         self.stackView.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
+            make.top.leading.trailing.bottom.equalToSuperview()
             make.width.equalTo(scrollView)
         }
     }
