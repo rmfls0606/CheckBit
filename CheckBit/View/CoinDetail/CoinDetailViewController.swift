@@ -42,7 +42,6 @@ class CoinDetailViewController: BaseViewController {
     
     private let scrollView: UIScrollView = {
         let view = UIScrollView()
-        view.backgroundColor = .yellow
         return view
     }()
     
@@ -50,8 +49,7 @@ class CoinDetailViewController: BaseViewController {
         let view = UIStackView(arrangedSubviews: [coinDetailChartView])
         view.axis = .vertical
         view.spacing = 20
-        view.backgroundColor = .red
-        view.distribution = .fillEqually
+        view.distribution = .fill
         view.alignment = .fill
         return view
     }()
@@ -70,7 +68,8 @@ class CoinDetailViewController: BaseViewController {
         }
         
         self.stackView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.leading.trailing.equalToSuperview()
+            make.width.equalTo(scrollView)
         }
     }
     
@@ -120,6 +119,11 @@ class CoinDetailViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
     
+        output.price_in_7d_list
+            .subscribe(with: self) { owner, value in
+                owner.coinDetailChartView.updateChartView(values: value.first!.sparkline_in_7d!.price)
+            }
+            .disposed(by: disposeBag)
         
     }
 }

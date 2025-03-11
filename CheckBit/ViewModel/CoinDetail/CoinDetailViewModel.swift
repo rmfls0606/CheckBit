@@ -40,6 +40,7 @@ class CoinDetailViewModel{
                         }
                     }
             }
+            .observe(on: MainScheduler.instance)
             .subscribe { value in
                 price_in_7d_list.accept(value)
             }
