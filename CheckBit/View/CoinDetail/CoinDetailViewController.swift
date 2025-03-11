@@ -16,6 +16,7 @@ class CoinDetailViewController: BaseViewController {
     var coin: SearchCoin?
     
     private let disposeBag = DisposeBag()
+    private let viewModel = CoinDetailViewModel()
     
     private lazy var navTitleView: UIStackView = {
         let view = UIStackView(arrangedSubviews: [navTitleImageView, navTitleLabel])
@@ -36,19 +37,26 @@ class CoinDetailViewController: BaseViewController {
         return label
     }()
     
+    private let coinDetailChartView = CoinDetailChartView()
+    
     
     private let scrollView: UIScrollView = {
         let view = UIScrollView()
+        view.backgroundColor = .yellow
         return view
     }()
     
-    private let stackView: UIStackView = {
-        let view = UIStackView()
+    private lazy var stackView: UIStackView = {
+        let view = UIStackView(arrangedSubviews: [coinDetailChartView])
         view.axis = .vertical
         view.spacing = 20
         view.backgroundColor = .red
+        view.distribution = .fillEqually
+        view.alignment = .fill
         return view
     }()
+    
+    
     
     override func configureHierarchy() {
         self.view.addSubview(scrollView)
@@ -58,8 +66,7 @@ class CoinDetailViewController: BaseViewController {
     
     override func configureLayout() {
         self.scrollView.snp.makeConstraints { make in
-            make.top.equalTo(self.view.safeAreaLayoutGuide)
-            make.leading.trailing.bottom.equalToSuperview()
+            make.edges.equalTo(self.view.safeAreaLayoutGuide)
         }
         
         self.stackView.snp.makeConstraints { make in
@@ -104,10 +111,15 @@ class CoinDetailViewController: BaseViewController {
     }
     
     override func configureBind() {
+        let input = CoinDetailViewModel.Input(coinIds: Observable<String>.just(coin!.id))
+        let output = viewModel.transform(input: input)
+        
         self.navigationItem.leftBarButtonItem?.rx.tap
             .subscribe(with: self) { owner, _ in
                 owner.navigationController?.popViewController(animated: true)
             }
             .disposed(by: disposeBag)
+    
+        
     }
 }
