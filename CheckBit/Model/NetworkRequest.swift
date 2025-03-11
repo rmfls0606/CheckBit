@@ -55,11 +55,11 @@ enum CoingeckoRequest: NetworkRequest{
     var endPoint: URL{
         switch self{
         case .trending:
-            return URL(string: baseURL + "/trending")!
+            return URL(string: baseURL + "/search/trending")!
         case .search:
-            return URL(string: baseURL)!
+            return URL(string: baseURL + "/search")!
         case .coins:
-            return URL(string: baseURL + "/coins.markets")!
+            return URL(string: baseURL + "/coins/markets")!
         }
     }
     
