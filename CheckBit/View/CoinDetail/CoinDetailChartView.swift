@@ -10,7 +10,6 @@ import SnapKit
 import DGCharts
 
 class CoinDetailChartView: BaseView {
-    
     private lazy var mainStackView: UIStackView = {
         let view = UIStackView(arrangedSubviews: [totalPriceLabel, totalChangeStackView, chartView, updateLabel])
         view.axis = .vertical
@@ -24,7 +23,6 @@ class CoinDetailChartView: BaseView {
         let label = UILabel()
         label.font = .systemFont(ofSize: 20, weight: .bold)
         label.textColor = UIColor(resource: .main)
-        label.text = "₩140,375,094"
         return label
     }()
     
@@ -39,14 +37,12 @@ class CoinDetailChartView: BaseView {
     private let totalPercentageLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 9)
-        label.text = "0.98%"
         return label
     }()
     
     private let totalChangeIconImageView: UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleAspectFill
-        view.image = UIImage(systemName: ArrowImage.up.rawValue)
         return view
     }()
     
@@ -70,7 +66,6 @@ class CoinDetailChartView: BaseView {
         let label = UILabel()
         label.font = .systemFont(ofSize: 9)
         label.textColor = UIColor(resource: .secondary)
-        label.text = "2/15 18:00:45 업데이트"
         return label
     }()
     
@@ -128,5 +123,41 @@ class CoinDetailChartView: BaseView {
         chartView.extraLeftOffset = 0
         chartView.extraRightOffset = 0
         chartView.setViewPortOffsets(left: 0, top: 0, right: 0, bottom: 0)
+    }
+    
+    func insertData(currentPrice: Double, price_change_percentage_24h: Double, last_updated: String){
+        print(currentPrice)
+        self.totalPriceLabel.text = "₩" + currentPrice.formatted2fValue()
+        
+        let newColor: UIColor
+        var arrowImageName: String = ""
+        if price_change_percentage_24h > 0 {
+            newColor = CoinChangeColor.rise.textColor
+            arrowImageName = ArrowImage.up.rawValue
+        }else if price_change_percentage_24h < 0 {
+            newColor = CoinChangeColor.fall.textColor
+            arrowImageName = ArrowImage.down.rawValue
+        }else{
+            newColor = CoinChangeColor.even.textColor
+        }
+        
+        self.totalChangeIconImageView.image = UIImage(systemName: arrowImageName)
+        self.totalChangeIconImageView.tintColor = newColor
+        self.totalPercentageLabel.textColor = newColor
+        self.totalPercentageLabel.text = abs(price_change_percentage_24h).formatted2fValue()
+        
+        let isoFormatter = ISO8601DateFormatter()
+        isoFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        isoFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        
+        if let date = isoFormatter.date(from: last_updated) {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "MM/dd HH:mm:ss '업데이트'"
+            formatter.timeZone = TimeZone(identifier: "Asia/Seoul")
+            
+            self.updateLabel.text = formatter.string(from: date)
+        } else {
+            self.updateLabel.text = "--"
+        }
     }
 }

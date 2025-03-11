@@ -119,6 +119,7 @@ class CoinDetailInvestmentView: BaseView {
             label.font = .systemFont(ofSize: 12, weight: .bold)
             label.textColor = UIColor(resource: .main)
             label.text = content
+            label.tag = 1
             return label
         }()
         
@@ -126,5 +127,23 @@ class CoinDetailInvestmentView: BaseView {
         view.addArrangedSubview(contentLabel)
 
         return view
+    }
+    
+    func updateData(marketValue: Double, fdv: Double, totalPrice: Double){
+        updateTitleAndContetStack(stackView: self.marketValue, content: marketValue.formatted2fValue())
+        updateTitleAndContetStack(stackView: self.fdv, content: fdv.formatted2fValue())
+        updateTitleAndContetStack(stackView: self.totalPrice, content: totalPrice.formatted2fValue())
+    }
+    
+    func updateTitleAndContetStack(stackView: UIStackView, content: String){
+        for subview in stackView.arrangedSubviews {
+            if let label = subview as? UILabel {
+                if label.tag == 1 {
+                    label.text = "₩" + content
+                    label.font = .systemFont(ofSize: 14, weight: .bold)
+                    label.textColor = UIColor(resource: .main)
+                }
+            }
+        }
     }
 }

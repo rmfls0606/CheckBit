@@ -123,7 +123,11 @@ class CoinDetailViewController: BaseViewController {
     
         output.price_in_7d_list
             .subscribe(with: self) { owner, value in
-                owner.coinDetailChartView.updateChartView(values: value.first!.sparkline_in_7d!.price)
+                let data = value.first!
+                owner.coinDetailChartView.insertData(currentPrice: data.current_price, price_change_percentage_24h: data.price_change_percentage_24h ?? 0, last_updated: data.last_updated)
+                owner.coinDetailChartView.updateChartView(values: data.sparkline_in_7d!.price)
+                owner.coinDetailInfoView.updateData(highPrice_24h: data.high_24h ?? 0, lowPrice_24h: data.low_24h ?? 0, highPrice_all: data.ath, lowPrice_all: data.atl, hightDate: data.ath_date, lowDate: data.atl_date)
+                owner.coinDatilInvestmentView.updateData(marketValue: data.market_cap, fdv: data.fully_diluted_valuation ?? 0, totalPrice: data.total_volume)
             }
             .disposed(by: disposeBag)
         

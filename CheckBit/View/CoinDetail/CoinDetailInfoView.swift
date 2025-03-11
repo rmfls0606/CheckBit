@@ -70,7 +70,7 @@ class CoinDetailInfoView: BaseView {
         view.spacing = 8
         return view
     }()
-
+    
     private lazy var price_all_stack: UIStackView = {
         let view = UIStackView(arrangedSubviews: [highPrice_all, fallPrice_all])
         view.axis = .horizontal
@@ -119,7 +119,7 @@ class CoinDetailInfoView: BaseView {
         view.spacing = 4
         
         let titleLabel: UILabel = {
-           let label = UILabel()
+            let label = UILabel()
             label.font = .systemFont(ofSize: 14)
             label.textColor = UIColor(resource: .secondary)
             label.text = title
@@ -131,6 +131,7 @@ class CoinDetailInfoView: BaseView {
             label.font = .systemFont(ofSize: 12, weight: .bold)
             label.textColor = UIColor(resource: .main)
             label.text = content
+            label.tag = 1
             return label
         }()
         
@@ -143,6 +144,7 @@ class CoinDetailInfoView: BaseView {
                 label.font = .systemFont(ofSize: 9)
                 label.textColor = UIColor(resource: .secondary)
                 label.text = date
+                label.tag = 2
                 return label
             }()
             view.addArrangedSubview(dateLabel)
@@ -150,5 +152,44 @@ class CoinDetailInfoView: BaseView {
         
         
         return view
+    }
+    
+    func updateData(highPrice_24h: Double, lowPrice_24h: Double, highPrice_all: Double, lowPrice_all: Double, hightDate: String?, lowDate: String?){
+        updateTitleAndContetStack(stackView: self.highPrice_24h, content: highPrice_24h.formatted2fValue())
+        updateTitleAndContetStack(stackView: self.fallPrice_24h, content: lowPrice_24h.formatted2fValue())
+        updateTitleAndContetStack(stackView: self.highPrice_all, content: highPrice_all.formatted2fValue(), date: hightDate)
+        updateTitleAndContetStack(stackView: self.fallPrice_all, content: lowPrice_all.formatted2fValue(), date: lowDate)
+    }
+    
+    func updateTitleAndContetStack(stackView: UIStackView, content: String, date: String? = nil){
+        for subview in stackView.arrangedSubviews {
+            if let label = subview as? UILabel {
+                if label.tag == 1 {
+                    label.text = "₩" + content
+                    label.font = .systemFont(ofSize: 14, weight: .bold)
+                    label.textColor = UIColor(resource: .main)
+                } else if label.tag == 2, let date = date {
+                    label.text = formatISODate(date)
+                    label.font = .systemFont(ofSize: 9)
+                    label.textColor = UIColor(resource: .secondary)
+                }
+            }
+        }
+    }
+    
+    func formatISODate(_ isoDateString: String) -> String {
+        let isoFormatter = ISO8601DateFormatter()
+        isoFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        isoFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+
+        if let date = isoFormatter.date(from: isoDateString) {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "YY년 MM월 dd일"
+            formatter.timeZone = TimeZone(identifier: "Asia/Seoul")
+
+            return formatter.string(from: date)
+        } else {
+            return "--"
+        }
     }
 }
