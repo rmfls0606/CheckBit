@@ -21,7 +21,8 @@ class PopularCollectionViewCell: BaseCollectionViewCell {
     private(set) var popularCoinImageView: UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleAspectFill
-        view.clipsToBounds = true
+        view.layer.cornerRadius = 13
+        view.layer.masksToBounds = true
         return view
     }()
     
@@ -129,18 +130,18 @@ class PopularCollectionViewCell: BaseCollectionViewCell {
     func insertData(rank: Int, data: TrendingCoinItem){
         self.popularRankLabel.text = "\(rank)"
         
-        if let url = URL(string: data.item.thumb){
+        if let url = URL(string: data.item.small){
             self.popularCoinImageView.kf.setImage(with: url)
         }else{
             self.popularCoinImageView.image = UIImage(systemName: "person.fill.circle")
         }
         
-        self.popularCoinNameLabel.text = data.item.name
-        self.popularCoinCompanyLabel.text = data.item.symbol
+        self.popularCoinNameLabel.text = data.item.symbol
+        self.popularCoinCompanyLabel.text = data.item.name
         self.popularChangeIconImageView.image = UIImage(systemName: "arrowtriangle.up.fill")
         
         if let changeRate = data.item.data.price_change_percentage_24h["krw"]{
-            self.popularChangeLabel.text = changeRate.formatted2fValue() + "%"
+            self.popularChangeLabel.text = abs(changeRate).formatted2fValue() + "%"
             
             let newColor: UIColor
             var arrowImageName: String = ""

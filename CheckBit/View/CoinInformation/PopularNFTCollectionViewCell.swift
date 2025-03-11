@@ -128,7 +128,7 @@ class PopularNFTCollectionViewCell: BaseCollectionViewCell {
         
         self.nftArrowImageView.image = UIImage(systemName: arrowImage)
         self.nftArrowImageView.tintColor = newColor
-        self.nftChangeRateLabel.text = data.floor_price_24h_percentage_change.formatted2fValue() + "%"
+        self.nftChangeRateLabel.text = abs(data.floor_price_24h_percentage_change).formatted2fValue() + "%"
         self.nftChangeRateLabel.textColor = newColor
     }
 }

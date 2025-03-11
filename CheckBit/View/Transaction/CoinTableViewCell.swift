@@ -83,7 +83,7 @@ class CoinTableViewCell: BaseTableViewCell {
     
     //MARK: - 데이터 삽입 및 style설정 함수
     func insertData(data: MarketData){
-        self.coinLabel.text = data.market
+        self.coinLabel.text = data.market.replacing("-", with: "/")
         self.currentPriceLabel.text = data.trade_price.formatted1fValue()
         
         let coinChangeColor = CoinChangeColor(rawValue: data.change)

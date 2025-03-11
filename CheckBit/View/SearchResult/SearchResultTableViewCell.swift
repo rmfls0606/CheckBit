@@ -25,7 +25,8 @@ class SearchResultTableViewCell: BaseTableViewCell{
     private let resultImageView: UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleAspectFill
-        view.clipsToBounds = true
+        view.layer.cornerRadius = 18
+        view.layer.masksToBounds = true
         return view
     }()
     
@@ -154,9 +155,9 @@ class SearchResultTableViewCell: BaseTableViewCell{
         let isLiked = repository.fetchAllCase().contains{ $0.id == data.id }
         updateLikeButton(isLiked: isLiked)
         
-        self.resultNameLabel.text = data.name
+        self.resultNameLabel.text = data.symbol
         self.resultRankLabel.text = "#\(data.market_cap_rank)"
-        self.resultSymbolLabel.text = data.api_symbol
+        self.resultSymbolLabel.text = data.name
     }
     
     private func toggleLike() {

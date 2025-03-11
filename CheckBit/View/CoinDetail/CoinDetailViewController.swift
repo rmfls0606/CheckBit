@@ -70,6 +70,11 @@ class CoinDetailViewController: BaseViewController {
         return indicator
     }()
     
+    override func viewWillLayoutSubviews() {
+        navTitleImageView.layer.cornerRadius = navTitleImageView.bounds.width / 2
+        navTitleImageView.layer.masksToBounds = true
+    }
+    
     override func configureHierarchy() {
         self.view.addSubview(scrollView)
         self.scrollView.addSubview(stackView)
@@ -110,7 +115,7 @@ class CoinDetailViewController: BaseViewController {
             navTitleImageView.image = UIImage(systemName: "person.circle")
         }
         
-        navTitleLabel.text = coin.name
+        navTitleLabel.text = coin.symbol
         
         self.navigationItem.titleView = navTitleView
         

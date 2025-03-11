@@ -184,6 +184,7 @@
 				DEVELOPMENT_TEAM = 643M6R9A8T;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CheckBit/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "이상민";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIStatusBarStyle = "";
@@ -218,6 +219,7 @@
 				DEVELOPMENT_TEAM = 643M6R9A8T;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CheckBit/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "이상민";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIStatusBarStyle = "";
