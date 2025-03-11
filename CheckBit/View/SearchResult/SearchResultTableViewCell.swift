@@ -123,6 +123,9 @@ class SearchResultTableViewCell: BaseTableViewCell{
     
     override func configureView() {
         self.selectionStyle = .none
+        [resultRankLabelView, resultRankLabel].forEach {
+            $0.setContentCompressionResistancePriority(.required, for: .horizontal)
+        }
     }
     
     func insertData(data: SearchCoin){
