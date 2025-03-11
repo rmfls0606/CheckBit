@@ -38,7 +38,7 @@ class CoinDetailViewController: BaseViewController {
     }()
     
     private let coinDetailChartView = CoinDetailChartView()
-    
+    private let coinDetailInfoView = CoinDetailInfoView()
     
     private let scrollView: UIScrollView = {
         let view = UIScrollView()
@@ -46,7 +46,7 @@ class CoinDetailViewController: BaseViewController {
     }()
     
     private lazy var stackView: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [coinDetailChartView])
+        let view = UIStackView(arrangedSubviews: [coinDetailChartView, coinDetailInfoView])
         view.axis = .vertical
         view.spacing = 20
         view.distribution = .fill
