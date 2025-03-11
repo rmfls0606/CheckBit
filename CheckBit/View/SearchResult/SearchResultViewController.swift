@@ -52,6 +52,20 @@ class SearchResultViewController: BaseViewController {
                 cell.insertData(data: element)
             }
             .disposed(by: disposeBag)
+        
+        Observable
+            .zip(
+                searcnResultView.searchResultTableView.rx
+                    .modelSelected(SearchCoin.self),
+                searcnResultView
+                    .searchResultTableView.rx.itemSelected)
+            .map{ $0 }
+            .bind(with: self) { owner, coin in
+                let nextVC = CoinDetailViewController()
+                nextVC.coin = coin.0
+                owner.navigationController?.pushViewController(nextVC, animated: true)
+            }
+            .disposed(by: disposeBag)
     }
     
 }
