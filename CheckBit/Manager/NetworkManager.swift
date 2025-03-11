@@ -24,34 +24,37 @@ final class NetworkManager{
             }
             
             guard let url = components.url else{
-                print("잘못된 URL 정보 입니다.")
+                value(.failure(NetworkError.invalidURL))
                 return Disposables.create()
             }
             
             URLSession.shared.dataTask(with: url){ data, response, error in
                 
-                if let error = error{
-                    print("error 발생")
+                if error != nil{
+                    value(.failure(NetworkError.unknownResponse))
                     return
                 }
                 
-                guard let response = response as? HTTPURLResponse,
-                      (200...299).contains(response.statusCode) else{
-                    print("접근에 실패하였습니다.")
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    value(.failure(NetworkError.unknownResponse))
+                    return
+                }
+                
+                guard (200...299).contains(httpResponse.statusCode) else {
+                    let messageData = String(data: data ?? Data(), encoding: .utf8) ?? ""
+                    value(.failure(NetworkError.statusError(statusCode: httpResponse.statusCode, message: messageData)))
                     return
                 }
                 
                 if let data = data{
                     do{
-                        let result = try JSONDecoder().decode(T.self
-                                                              , from:  data)
+                        let result = try JSONDecoder().decode(T.self, from:  data)
                         value(.success(.success(result)))
-                    }catch(let error){
-                        print(error.localizedDescription)
-                        print("데이터를 디코딩하는데 실패하였습니다.")
+                    }catch(_){
+                        value(.failure(NetworkError.unknownResponse))
                     }
                 }else{
-                    print("데이터가 존재하지 않습니다.")
+                    value(.failure(NetworkError.unknownResponse))
                 }
             }
             .resume()
