@@ -32,18 +32,18 @@ class SearchResultViewModel {
             .bind(to: searchQuery)
             .disposed(by: disposeBag)
         
-        input.searchTap
+        let searchClicked = input.searchTap
             .withLatestFrom(input.searchText)
             .map{ $0.trimmingCharacters(in: .whitespacesAndNewlines) }
             .filter{ !$0.isEmpty }
             .distinctUntilChanged()
-            .bind(to: searchQuery)
-            .disposed(by: disposeBag)
         
-        Observable<Int>.interval(.seconds(900), scheduler: MainScheduler.instance)
+        let timer = Observable<Int>.interval(.seconds(900), scheduler: MainScheduler.instance)
             .startWith(0)
             .withLatestFrom(searchQuery)
             .filter{ !$0.isEmpty }
+        
+        Observable.merge(searchClicked, timer)
             .flatMap { currentQuery -> Single<[SearchCoin]> in
                 return NetworkManager.shared.callBackUpbitWithSingle(api: CoingeckoRequest.search(query: currentQuery))
                     .flatMap { (result: Result<SearchData, Error>) -> Single<[SearchCoin]> in
