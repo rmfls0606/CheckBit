@@ -13,16 +13,20 @@ class CoinDetailViewModel{
     
     struct Input{
         let coinIds: Observable<String>
+        let likeButtonTap: ControlEvent<Void>
     }
     
     struct Output{
         let price_in_7d_list: PublishRelay<[CoinDetail]>
+        let isLiked: BehaviorRelay<Bool>
     }
     
     private let disposeBag = DisposeBag()
+    private let repository = LikeTableRepository()
     
     func transform(input: Input) -> Output{
         let price_in_7d_list = PublishRelay<[CoinDetail]>()
+        let isLiked = BehaviorRelay<Bool>(value: false)
         
         Observable<Int>.interval(.seconds(60), scheduler: MainScheduler.instance)
             .startWith(0)
@@ -48,6 +52,26 @@ class CoinDetailViewModel{
             }
             .disposed(by: disposeBag)
         
-        return Output(price_in_7d_list: price_in_7d_list)
+        input.likeButtonTap
+            .withLatestFrom(input.coinIds)
+            .subscribe(with: self) { owner, id in
+                if let existData = owner.repository.fetchAllCase().first(where: { $0.id == id }){
+                    owner.repository.deleteItem(data: existData)
+                    isLiked.accept(false)
+                }else{
+                    owner.repository.createItem(id: id)
+                    isLiked.accept(true)
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        input.coinIds
+            .subscribe(with: self, onNext: { owner, id in
+                let liked = owner.repository.fetchAllCase().contains(where: {$0.id == id})
+                isLiked.accept(liked)
+            })
+            .disposed(by: disposeBag)
+        
+        return Output(price_in_7d_list: price_in_7d_list, isLiked: isLiked)
     }
 }

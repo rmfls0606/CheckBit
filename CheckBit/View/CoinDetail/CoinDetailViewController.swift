@@ -112,7 +112,7 @@ class CoinDetailViewController: BaseViewController {
     }
     
     override func configureBind() {
-        let input = CoinDetailViewModel.Input(coinIds: Observable<String>.just(coin!.id))
+        let input = CoinDetailViewModel.Input(coinIds: Observable<String>.just(coin!.id), likeButtonTap: self.navigationItem.rightBarButtonItem!.rx.tap)
         let output = viewModel.transform(input: input)
         
         self.navigationItem.leftBarButtonItem?.rx.tap
@@ -131,5 +131,11 @@ class CoinDetailViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
         
+        output.isLiked
+            .subscribe(with: self) { owner, state in
+                let image = state ? "star.fill" : "star"
+                owner.navigationItem.rightBarButtonItem?.image = UIImage(systemName: image)
+            }
+            .disposed(by: disposeBag)
     }
 }
