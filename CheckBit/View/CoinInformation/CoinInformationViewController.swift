@@ -121,7 +121,7 @@ class CoinInformationViewController: BaseViewController {
         
         loadingView.isHidden = false
         loadingIndicator.startAnimating()
-        self.tabBarController?.tabBar.isUserInteractionEnabled = true
+        self.tabBarController?.tabBar.isUserInteractionEnabled = false
     }
     
     override func configureBind() {
@@ -184,7 +184,7 @@ class CoinInformationViewController: BaseViewController {
             .subscribe(with: self) { owner, data in
                 owner.loadingIndicator.stopAnimating()
                 owner.loadingView.isHidden = true
-                owner.tabBarController?.tabBar.isUserInteractionEnabled = false
+                owner.tabBarController?.tabBar.isUserInteractionEnabled = true
             }
             .disposed(by: disposeBag)
 

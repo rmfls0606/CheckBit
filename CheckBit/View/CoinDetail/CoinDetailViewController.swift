@@ -106,7 +106,7 @@ class CoinDetailViewController: BaseViewController {
         self.view.backgroundColor = .white
         loadingView.isHidden = false
         loadingIndicator.startAnimating()
-        self.tabBarController?.tabBar.isUserInteractionEnabled = true
+        self.tabBarController?.tabBar.isUserInteractionEnabled = false
         
         guard let coin = self.coin else { return }
         if let url = URL(string: coin.thumb){
@@ -162,7 +162,7 @@ class CoinDetailViewController: BaseViewController {
                 
                 owner.loadingIndicator.stopAnimating()
                 owner.loadingView.isHidden = true
-                owner.tabBarController?.tabBar.isUserInteractionEnabled = false
+                owner.tabBarController?.tabBar.isUserInteractionEnabled = true
             }
             .disposed(by: disposeBag)
         

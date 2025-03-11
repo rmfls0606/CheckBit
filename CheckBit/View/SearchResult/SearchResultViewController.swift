@@ -73,7 +73,7 @@ class SearchResultViewController: BaseViewController {
         
         loadingView.isHidden = false
         loadingIndicator.startAnimating()
-        self.tabBarController?.tabBar.isUserInteractionEnabled = true
+        self.tabBarController?.tabBar.isUserInteractionEnabled = false
     }
     
     override func configureBind() {
@@ -99,7 +99,7 @@ class SearchResultViewController: BaseViewController {
                 
                 self.loadingIndicator.stopAnimating()
                 self.loadingView.isHidden = true
-                self.tabBarController?.tabBar.isUserInteractionEnabled = false
+                self.tabBarController?.tabBar.isUserInteractionEnabled = true
             }
             .disposed(by: disposeBag)
         

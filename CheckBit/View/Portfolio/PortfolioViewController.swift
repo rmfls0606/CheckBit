@@ -18,7 +18,7 @@ class PortfolioViewController: BaseViewController {
     }
     
     override func configureView() {
-        self.view.backgroundColor = .green
+        self.view.backgroundColor = .white
     }
     
     override func configureBind() {
