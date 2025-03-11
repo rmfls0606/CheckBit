@@ -46,6 +46,7 @@ enum UpbitRequest: NetworkRequest{
 enum CoingeckoRequest: NetworkRequest{
     case trending
     case search(query: String)
+    case coins(vs_currenct: String, ids: String)
     
     var baseURL: String{
         return NetworkURL.coinGeckoURL
@@ -57,6 +58,8 @@ enum CoingeckoRequest: NetworkRequest{
             return URL(string: baseURL + "/trending")!
         case .search:
             return URL(string: baseURL)!
+        case .coins:
+            return URL(string: baseURL + "/coins.markets")!
         }
     }
     
@@ -66,6 +69,10 @@ enum CoingeckoRequest: NetworkRequest{
             return [:]
         case .search(let query):
             return ["query": query]
+        case .coins(let vs_currenct, let ids):
+            return ["vs_currency": vs_currenct,
+                    "ids": ids,
+                    "sparkline": true]
         }
     }
 }
