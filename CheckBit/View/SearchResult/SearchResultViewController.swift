@@ -46,6 +46,12 @@ class SearchResultViewController: BaseViewController {
         let input = SearchResultViewModel.Input(searchText: searchBar.rx.text.orEmpty, searchTap: searchBar.rx.searchButtonClicked)
         let output = viewModel.transform(input: input)
         
+        self.navigationItem.leftBarButtonItem?.rx.tap
+            .subscribe(with: self, onNext: { owner, _ in
+                owner.navigationController?.popViewController(animated: true)
+            })
+            .disposed(by: disposeBag)
+        
         output.searchResult
             .bind(to: searcnResultView.searchResultTableView.rx.items(cellIdentifier: SearchResultTableViewCell.identifier, cellType: SearchResultTableViewCell.self)){
                 (row, element, cell) in
