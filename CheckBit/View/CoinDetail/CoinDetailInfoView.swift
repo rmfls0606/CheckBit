@@ -80,10 +80,10 @@ class CoinDetailInfoView: BaseView {
         return view
     }()
     
-    private lazy var highPrice_24h = titleAndContentStack(title: "24시간 고가", content: "₩142,060,908")
-    private lazy var fallPrice_24h = titleAndContentStack(title: "24시간 저가", content: "₩139,531,878")
-    private lazy var highPrice_all = titleAndContentStack(title: "역대 최고가", content: "₩157,802,908", date: "25년 1월 20일")
-    private lazy var fallPrice_all = titleAndContentStack(title: "역대 최저가", content: "₩75,594", date: "13년 7월 5일")
+    private lazy var highPrice_24h = titleAndContentStack(title: "", content: "")
+    private lazy var fallPrice_24h = titleAndContentStack(title: "", content: "")
+    private lazy var highPrice_all = titleAndContentStack(title: "", content: "", date: "")
+    private lazy var fallPrice_all = titleAndContentStack(title: "", content: "", date: "")
     
     
     override func configureHierarchy() {

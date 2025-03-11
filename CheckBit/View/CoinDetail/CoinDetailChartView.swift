@@ -126,7 +126,6 @@ class CoinDetailChartView: BaseView {
     }
     
     func insertData(currentPrice: Double, price_change_percentage_24h: Double, last_updated: String){
-        print(currentPrice)
         self.totalPriceLabel.text = "₩" + currentPrice.formatted2fValue()
         
         let newColor: UIColor

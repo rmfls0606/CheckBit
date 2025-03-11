@@ -62,9 +62,9 @@ class CoinDetailInvestmentView: BaseView {
         return view
     }()
     
-    private lazy var marketValue = titleAndContentStack(title: "시가총액", content: "₩2,782,213,792,217")
-    private lazy var fdv = titleAndContentStack(title: "완전 희석 가치(FDV)", content: "₩2,728,407,213,792,217")
-    private lazy var totalPrice = titleAndContentStack(title: "총 거래량", content: "₩157,802,908")
+    private lazy var marketValue = titleAndContentStack(title: "", content: "")
+    private lazy var fdv = titleAndContentStack(title: "", content: "")
+    private lazy var totalPrice = titleAndContentStack(title: "", content: "")
     
     override func configureHierarchy() {
         self.addSubview(mainStackView)

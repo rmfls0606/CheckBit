@@ -24,7 +24,9 @@ class CoinDetailViewModel{
     func transform(input: Input) -> Output{
         let price_in_7d_list = PublishRelay<[CoinDetail]>()
         
-        input.coinIds
+        Observable<Int>.interval(.seconds(60), scheduler: MainScheduler.instance)
+            .startWith(0)
+            .flatMapLatest { _ in input.coinIds }
             .flatMap { ids -> Single<[CoinDetail]> in
                 NetworkManager.shared
                     .callBackUpbitWithSingle(api: CoingeckoRequest.coins(vs_currenct: "KRW", ids: ids))
