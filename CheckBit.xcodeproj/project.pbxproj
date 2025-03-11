@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		795748BA2D7C92CE00077A85 /* NetworkURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795748B92D7C92CE00077A85 /* NetworkURL.swift */; };
 		798892712D7FBDA200AA2486 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 798892702D7FBDA200AA2486 /* RealmSwift */; };
+		798893C62D7FEE4700AA2486 /* DGCharts in Frameworks */ = {isa = PBXBuildFile; productRef = 798893C52D7FEE4700AA2486 /* DGCharts */; };
 		79C79A292D7ED4840004143C /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 79C79A282D7ED4840004143C /* Kingfisher */; };
 		79F32E752D7A2C78000B4D61 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 79F32E742D7A2C78000B4D61 /* SnapKit */; };
 		79FC39232D7B184D00F7E12F /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 79FC39222D7B184D00F7E12F /* RxCocoa */; };
@@ -52,6 +53,7 @@
 				79FC39252D7B184D00F7E12F /* RxSwift in Frameworks */,
 				79FC39232D7B184D00F7E12F /* RxCocoa in Frameworks */,
 				798892712D7FBDA200AA2486 /* RealmSwift in Frameworks */,
+				798893C62D7FEE4700AA2486 /* DGCharts in Frameworks */,
 				79F32E752D7A2C78000B4D61 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -102,6 +104,7 @@
 				79FC39242D7B184D00F7E12F /* RxSwift */,
 				79C79A282D7ED4840004143C /* Kingfisher */,
 				798892702D7FBDA200AA2486 /* RealmSwift */,
+				798893C52D7FEE4700AA2486 /* DGCharts */,
 			);
 			productName = CheckBit;
 			productReference = 79F32E232D79876B000B4D61 /* CheckBit.app */;
@@ -136,6 +139,7 @@
 				79FC39212D7B184D00F7E12F /* XCRemoteSwiftPackageReference "RxSwift" */,
 				79C79A272D7ED4840004143C /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				7988926F2D7FBDA200AA2486 /* XCRemoteSwiftPackageReference "realm-swift" */,
+				798893C42D7FEE4700AA2486 /* XCRemoteSwiftPackageReference "Charts" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 79F32E242D79876B000B4D61 /* Products */;
@@ -389,6 +393,14 @@
 				minimumVersion = 20.0.1;
 			};
 		};
+		798893C42D7FEE4700AA2486 /* XCRemoteSwiftPackageReference "Charts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ChartsOrg/Charts.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.0;
+			};
+		};
 		79C79A272D7ED4840004143C /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
@@ -420,6 +432,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7988926F2D7FBDA200AA2486 /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = RealmSwift;
+		};
+		798893C52D7FEE4700AA2486 /* DGCharts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 798893C42D7FEE4700AA2486 /* XCRemoteSwiftPackageReference "Charts" */;
+			productName = DGCharts;
 		};
 		79C79A282D7ED4840004143C /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
