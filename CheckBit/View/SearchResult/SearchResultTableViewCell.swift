@@ -8,11 +8,19 @@
 import UIKit
 import SnapKit
 import Kingfisher
+import RxSwift
+import RxCocoa
+import RealmSwift
 
 class SearchResultTableViewCell: BaseTableViewCell{
     
     static let identifier = "SearchResultTableViewCell"
     
+    private let repository = LikeTableRepository()
+    let disposeBag = DisposeBag()
+    let likeButtonTap = PublishRelay<String>()
+    
+    private var coinData: SearchCoin?
     
     private let resultImageView: UIImageView = {
         let view = UIImageView()
@@ -126,17 +134,48 @@ class SearchResultTableViewCell: BaseTableViewCell{
         [resultRankLabelView, resultRankLabel].forEach {
             $0.setContentCompressionResistancePriority(.required, for: .horizontal)
         }
+        
+        self.resultLikeButton.rx.tap
+            .subscribe(with: self) { owner, _ in
+                owner.toggleLike()
+            }
+            .disposed(by: disposeBag)
     }
     
     func insertData(data: SearchCoin){
+        self.coinData = data
+        
         if let url = URL(string: data.thumb){
             self.resultImageView.kf.setImage(with: url)
         }else{
             self.resultImageView.image = UIImage(systemName: "person.circle")
         }
         
+        let isLiked = repository.fetchAllCase().contains{ $0.id == data.id }
+        updateLikeButton(isLiked: isLiked)
+        
         self.resultNameLabel.text = data.name
         self.resultRankLabel.text = "#\(data.market_cap_rank)"
         self.resultSymbolLabel.text = data.api_symbol
+    }
+    
+    private func toggleLike() {
+        guard let coin = coinData else { return }
+        
+        if let existingData = repository.fetchAllCase().first(where: { $0.id == coin.id }) {
+            repository.deleteItem(data: existingData)
+        } else {
+            repository.createItem(id: coin.id)
+        }
+        
+        let isLiked = repository.fetchAllCase().contains { $0.id == coin.id }
+        updateLikeButton(isLiked: isLiked)
+        
+        likeButtonTap.accept(coin.id)
+    }
+    
+    private func updateLikeButton(isLiked: Bool) {
+        let imageName = isLiked ? "star.fill" : "star"
+        self.resultLikeButton.setImage(UIImage(systemName: imageName), for: .normal)
     }
 }

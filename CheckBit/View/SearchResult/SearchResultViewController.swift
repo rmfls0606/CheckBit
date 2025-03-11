@@ -23,6 +23,12 @@ class SearchResultViewController: BaseViewController {
     private let disposeBag = DisposeBag()
     private let viewModel = SearchResultViewModel()
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        searcnResultView.searchResultTableView.reloadData()
+    }
+    
     override func configureHierarchy() {
         self.view.addSubview(searcnResultView)
     }
@@ -43,6 +49,8 @@ class SearchResultViewController: BaseViewController {
     }
     
     override func configureBind() {
+        let likeButtonTap = PublishRelay<String>()
+        
         let input = SearchResultViewModel.Input(searchText: searchBar.rx.text.orEmpty, searchTap: searchBar.rx.searchButtonClicked)
         let output = viewModel.transform(input: input)
         
@@ -56,6 +64,10 @@ class SearchResultViewController: BaseViewController {
             .bind(to: searcnResultView.searchResultTableView.rx.items(cellIdentifier: SearchResultTableViewCell.identifier, cellType: SearchResultTableViewCell.self)){
                 (row, element, cell) in
                 cell.insertData(data: element)
+                
+                cell.likeButtonTap
+                    .bind(to: likeButtonTap)
+                    .disposed(by: cell.disposeBag)
             }
             .disposed(by: disposeBag)
         
@@ -70,6 +82,12 @@ class SearchResultViewController: BaseViewController {
                 let nextVC = CoinDetailViewController()
                 nextVC.coin = coin.0
                 owner.navigationController?.pushViewController(nextVC, animated: true)
+            }
+            .disposed(by: disposeBag)
+        
+        likeButtonTap
+            .subscribe(with: self) { owner, _ in
+                owner.searcnResultView.searchResultTableView.reloadData()
             }
             .disposed(by: disposeBag)
     }
