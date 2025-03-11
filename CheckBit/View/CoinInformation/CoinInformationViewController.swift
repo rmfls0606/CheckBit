@@ -100,6 +100,24 @@ class CoinInformationViewController: BaseViewController {
         let input = CoinInformationViewModel.Input(textFieldButtonTap: textField.rx.controlEvent(.editingDidEndOnExit), textFieldText: textField.rx.text.orEmpty)
         let output = viewModel.transform(input: input)
         
+        popularSearchView.popularCollectionView.rx.itemSelected
+            .subscribe(with: self, onNext: { owner, indexPath in
+                guard let coin = owner.popularSearchView.dataSource.itemIdentifier(for: indexPath) else { return }
+                let nextVC = CoinDetailViewController()
+                let data = coin.item
+                nextVC.coin = SearchCoin(
+                    id: data.id,
+                    name: data.name,
+                    api_symbol: data.symbol,
+                    symbol: data.symbol,
+                    market_cap_rank: data.market_cap_rank,
+                    thumb: data.thumb,
+                    large: data.large
+                )
+                self.navigationController?.pushViewController(nextVC, animated: true)
+            })
+            .disposed(by: disposeBag)
+        
         output.dateString
             .subscribe(with: self) { owner, value in
                 owner.popularSearchView.updateDateString(date: value)
